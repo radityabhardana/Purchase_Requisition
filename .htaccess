@@ -1,0 +1,24 @@
+# ==============================================================================
+# Apache Web Server Configuration - SIP-NKP (Laragon / Production)
+# PT Nandya Karya Perkasa
+# ==============================================================================
+
+# 1. Matikan Directory Browsing / Indexing (Keamanan Arsip)
+Options -Indexes
+
+# 2. Tentukan berkas utama Front Controller
+DirectoryIndex index.php
+
+# 3. Proteksi akses langsung ke file SQL & dokumentasi sensitif via browser
+<FilesMatch "\.(sql|md|json|log)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# 4. Set Charset Default UTF-8
+AddDefaultCharset UTF-8

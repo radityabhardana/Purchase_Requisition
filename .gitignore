@@ -1,0 +1,14 @@
+# Development & OS
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE & Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary Scratch files
+scratch/
+.system_generated/
