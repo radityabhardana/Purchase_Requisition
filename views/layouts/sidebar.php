@@ -20,23 +20,26 @@ $renderNavLinks = function() use ($currentPage, $role, $pendingPRCount, $critica
         <span>Dashboard Utama</span>
     </a>
 
-    <!-- DIVISI 1: ALUR KERJA UTAMA PENGADAAN (BERURUTAN 1 S.D 4) -->
-    <div class="nkp-sidebar-heading d-flex justify-content-between align-items-center">
-        <span>Alur Pengadaan</span>
-        <span class="badge bg-secondary text-light px-1.5 py-0.5" style="font-size: 0.65rem;">4 Tahap</span>
+    <!-- DIVISI 1: ALUR KERJA PENGADAAN -->
+    <div class="nkp-sidebar-heading">
+        Alur Pengadaan
     </div>
+
+    <?php 
+    $isPendingFilter = ($currentPage === 'pr' && ($_GET['status'] ?? '') === 'Pending');
+    $isPRActive = (in_array($currentPage, ['pr', 'pr-create']) && !$isPendingFilter);
+    $isSPVActive = ($currentPage === 'pr-detail' || $isPendingFilter);
+    ?>
 
     <!-- Tahap 1: Pengajuan PR -->
     <a href="index.php?page=pr" 
-       class="nav-link <?= in_array($currentPage, ['pr', 'pr-create']) ? 'active' : '' ?>">
+       class="nav-link <?= $isPRActive ? 'active' : '' ?>">
         <span class="badge-step">1</span>
         <span class="text-truncate">Pengajuan PR</span>
     </a>
 
     <!-- Tahap 2: Persetujuan SPV (Approval) -->
-    <?php if (in_array($role, ['supervisor', 'admin'])): 
-        $isSPVActive = ($currentPage === 'pr-detail' || ($currentPage === 'pr' && ($_GET['status'] ?? '') === 'Pending'));
-    ?>
+    <?php if (in_array($role, ['supervisor', 'admin'])): ?>
         <a href="index.php?page=pr&status=Pending" 
            class="nav-link justify-content-between <?= $isSPVActive ? 'active' : '' ?>">
             <div class="d-flex align-items-center text-truncate">
