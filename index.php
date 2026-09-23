@@ -32,6 +32,7 @@ use App\Controllers\SupplierController;
 use App\Controllers\PRController;
 use App\Controllers\POController;
 use App\Controllers\GRController;
+use App\Controllers\DeliveryNoteController;
 use App\Controllers\UserController;
 
 AuthHelper::initSession();
@@ -173,6 +174,35 @@ switch ($page) {
         if ($method === 'POST') {
             (new GRController())->store();
         }
+        break;
+
+    // === SURAT JALAN & PENGIRIMAN BARANG (DELIVERY NOTES) ===
+    case 'delivery-notes':
+        (new DeliveryNoteController())->index();
+        break;
+
+    case 'delivery-note-create':
+        (new DeliveryNoteController())->create();
+        break;
+
+    case 'delivery-note-store':
+        if ($method === 'POST') {
+            (new DeliveryNoteController())->store();
+        }
+        break;
+
+    case 'delivery-note-detail':
+        (new DeliveryNoteController())->detail();
+        break;
+
+    case 'delivery-note-status':
+        if ($method === 'POST') {
+            (new DeliveryNoteController())->updateStatus();
+        }
+        break;
+
+    case 'delivery-note-print':
+        (new DeliveryNoteController())->printView();
         break;
 
     // === MANAJEMEN PENGGUNA & AKUN KARYAWAN (ADMIN IT) ===

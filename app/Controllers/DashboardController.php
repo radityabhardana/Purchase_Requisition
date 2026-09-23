@@ -10,6 +10,7 @@ use App\Helpers\AuthHelper;
 use App\Models\Item;
 use App\Models\PurchaseRequisition;
 use App\Models\PurchaseOrder;
+use App\Models\DeliveryNote;
 use App\Models\Supplier;
 
 class DashboardController
@@ -29,6 +30,7 @@ class DashboardController
             'total_spend'    => PurchaseOrder::totalSpend(),
             'total_items'    => Item::countTotal(),
             'total_vendors'  => Supplier::count(),
+            'active_sj'      => DeliveryNote::countActive(),
         ];
 
         // 2. Ambil daftar barang dengan stok kritis (Safety Stock Alert)
@@ -39,6 +41,7 @@ class DashboardController
         $userId = ($user['role'] ?? '') === 'requester' ? (int)$user['id'] : null;
         $recentPRs = array_slice(PurchaseRequisition::getAll($userId), 0, 5);
         $recentPOs = array_slice(PurchaseOrder::getAll(), 0, 5);
+        $recentSJs = array_slice(DeliveryNote::getAll(), 0, 5);
 
         require __DIR__ . '/../../views/dashboard/index.php';
     }

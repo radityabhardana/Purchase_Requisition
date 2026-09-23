@@ -97,3 +97,18 @@ Buku panduan ini mendokumentasikan langkah-langkah penggunaan aplikasi untuk set
 ### 5.2 Memeriksa Pembaruan Stok Otomatis
 1. Segera setelah tombol konfirmasi ditekan, buka menu **"Kartu Stok / Mutasi"**.
 2. Anda akan melihat baris baru bertipe `IN` dengan nomor referensi GR tersebut, dan kolom saldo akhir (*balance*) otomatis bertambah tanpa perlu penyesuaian manual.
+
+### 5.3 Menerbitkan Surat Jalan Pengeluaran Barang (Delivery Note)
+1. Saat bagian logistik akan mengirimkan komponen hasil produksi atau suku cadang ke pelanggan (misal: PT Astra Honda Motor) atau antar-plant:
+2. Buka menu **"Surat Jalan (SJ)"** di sidebar, lalu klik tombol **"+ Buat Surat Jalan Baru"**.
+3. Isi informasi ekspedisi & tujuan:
+   - **Kategori & Nama Penerima:** Pilih kategori (Customer / Vendor / Plant) dan masukkan nama perusahaan tujuan.
+   - **Alamat Lengkap:** Lokasi bongkar muat ekspedisi.
+   - **No. Plat Kendaraan & Nama Pengemudi:** Armada dan supir yang bertugas mengantar.
+   - **Nomor PO Pemesan:** No. Purchase Order dari pihak customer (jika ada).
+4. Tambahkan rincian barang:
+   - Pilih suku cadang / komponen dari katalog. Sistem akan otomatis menampilkan stok fisik yang tersedia di rak gudang.
+   - Masukkan jumlah yang dikirim (**Qty Kirim**). Sistem secara otomatis membatasi agar tidak melebihi stok yang ada.
+   - Masukkan jenis kemasan (misal: *Box / Pallet*) dan keterangan nomor lot.
+5. Klik **"Konfirmasi & Terbitkan Surat Jalan"**.
+6. Sistem akan langsung memotong stok fisik gudang (*Stock OUT*), mencatat riwayat ke Kartu Mutasi, dan membuka halaman **Cetak Surat Jalan A4** standar ISO lengkap dengan barcode dan 4 kolom tanda tangan resmi.

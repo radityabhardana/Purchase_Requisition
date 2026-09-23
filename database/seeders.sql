@@ -78,3 +78,13 @@ INSERT INTO `purchase_orders` (`id`, `po_number`, `pr_id`, `supplier_id`, `creat
 
 INSERT INTO `po_items` (`po_id`, `item_id`, `qty_ordered`, `unit_price`, `subtotal`) VALUES
 (1, 1, 10, 350000.00, 3500000.00);
+
+-- 7. CONTOH TRANSAKSI SURAT JALAN (DELIVERY NOTE)
+INSERT INTO `delivery_notes` (`id`, `sj_number`, `created_by`, `recipient_type`, `recipient_name`, `recipient_address`, `customer_po_no`, `vehicle_no`, `driver_name`, `delivery_date`, `status`, `notes`) VALUES
+(1, 'SJ/NKP/2026/09/0001', 4, 'Customer', 'PT Astra Honda Motor (Plant 3 Cikarang)', 'Kawasan Industri MM2100 Blok NN, Cikarang Barat, Bekasi 17520', 'PO-AHM-2026-X8812', 'B 9481 NKP', 'Mulyadi (Ekspedisi Internal NKP)', '2026-09-22', 'Delivered', 'Pengiriman komponen press part & fastener. Segera stempel lembar receiving.'),
+(2, 'SJ/NKP/2026/09/0002', 4, 'Customer', 'PT Yamaha Indonesia Motor Mfg (YIMM Pulogadung)', 'Jl. KRT Radjiman Widyodiningrat, Pulogadung, Jakarta Timur 13920', 'PO-YIMM-SEP-0941', 'B 9210 NKP', 'Rahmat Hidayat (Driver)', '2026-09-24', 'Shipped', 'Pengiriman suku cadang die component SKD11 & fastener.');
+
+INSERT INTO `delivery_note_items` (`delivery_note_id`, `item_id`, `qty_shipped`, `packaging`, `remarks`) VALUES
+(1, 7, 250, '5 Box (@50 Pcs)', 'Lot No: 20260920-L2'),
+(2, 3, 2, '2 Box Karton', 'Heavy Duty Coil Spring Brown TF 40x80');
+

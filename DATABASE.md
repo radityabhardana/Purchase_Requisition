@@ -173,20 +173,54 @@ Catatan audit riwayat keluar-masuknya barang untuk menjaga transparansi dan akun
 | :--- | :--- | :--- | :--- |
 | `id` | INT AUTO_INCREMENT | PRIMARY KEY | ID mutasi |
 | `item_id` | INT | FOREIGN KEY (`items.id`) | Relasi ke barang yang bermutasi |
-| `mutation_type`| ENUM | NOT NULL | `'IN'` (Barang Masuk) atau `'OUT'` (Barang Keluar/Pemakaian) |
-| `reference_no` | VARCHAR(50) | NOT NULL | Nomor dokumen rujukan (Nomor GR atau Nomor Nota Pemakaian) |
+| `mutation_type`| ENUM | NOT NULL | `'IN'` (Barang Masuk) atau `'OUT'` (Barang Keluar/Pemakaian/Surat Jalan) |
+| `reference_no` | VARCHAR(50) | NOT NULL | Nomor dokumen rujukan (Nomor GR atau Nomor SJ) |
 | `qty_in` | INT | NOT NULL, DEFAULT 0 | Jumlah unit yang bertambah |
 | `qty_out` | INT | NOT NULL, DEFAULT 0 | Jumlah unit yang berkurang |
 | `balance` | INT | NOT NULL | Sisa stok akhir setelah mutasi terjadi |
-| `notes` | VARCHAR(255) NULL | - | Keterangan mutasi (contoh: *Penerimaan PO VND-001*) |
+| `notes` | VARCHAR(255) NULL | - | Keterangan mutasi (contoh: *Penerimaan PO* atau *Surat Jalan AHM*) |
 | `created_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Waktu pencatatan mutasi |
+
+---
+
+### 2.11 Tabel `delivery_notes` (Header Surat Jalan / Pengiriman Barang)
+Dokumen resmi pengeluaran barang dari gudang pabrik PT NKP ke pelanggan atau antar-plant.
+
+| Nama Kolom | Tipe Data | Constraint | Keterangan |
+| :--- | :--- | :--- | :--- |
+| `id` | INT AUTO_INCREMENT | PRIMARY KEY | ID unik dokumen Surat Jalan |
+| `sj_number` | VARCHAR(40) | UNIQUE, NOT NULL | Nomor seri resmi: `SJ/NKP/YYYY/MM/XXXX` |
+| `created_by` | INT | FOREIGN KEY (`users.id`) | Petugas gudang/logistik pembuat dokumen |
+| `recipient_type` | ENUM | NOT NULL, DEFAULT `'Customer'` | Kategori: `'Customer'`, `'Vendor/Subcont'`, `'Internal Plant'` |
+| `recipient_name` | VARCHAR(150) | NOT NULL | Nama perusahaan / entitas penerima barang |
+| `recipient_address` | TEXT | NOT NULL | Alamat tujuan pengantaran barang |
+| `customer_po_no` | VARCHAR(100) NULL | - | Nomor pesanan / PO dari customer |
+| `vehicle_no` | VARCHAR(30) | NOT NULL | Nomor polisi kendaraan ekspedisi (plat truk) |
+| `driver_name` | VARCHAR(100) | NOT NULL | Nama pengemudi armada logistik |
+| `delivery_date` | DATE | NOT NULL | Tanggal barang diberangkatkan |
+| `status` | ENUM | NOT NULL, DEFAULT `'Shipped'` | Status: `'Draft'`, `'Shipped'`, `'Delivered'`, `'Cancelled'` |
+| `notes` | TEXT NULL | - | Instruksi khusus penanganan muatan |
+| `created_at` | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP | Timestamp penerbitan dokumen |
+
+---
+
+### 2.12 Tabel `delivery_note_items` (Rincian Barang Surat Jalan)
+Daftar suku cadang atau part yang dimuat ke dalam armada beserta jenis kemasan.
+
+| Nama Kolom | Tipe Data | Constraint | Keterangan |
+| :--- | :--- | :--- | :--- |
+| `id` | INT AUTO_INCREMENT | PRIMARY KEY | ID rincian item pengiriman |
+| `delivery_note_id` | INT | FOREIGN KEY (`delivery_notes.id`) | Relasi ke Surat Jalan (ON DELETE CASCADE) |
+| `item_id` | INT | FOREIGN KEY (`items.id`) | Relasi ke master barang (ON DELETE RESTRICT) |
+| `qty_shipped` | INT | NOT NULL | Kuantitas unit yang dikeluarkan |
+| `packaging` | VARCHAR(50) | NOT NULL, DEFAULT `'Box / Pallet'` | Jenis kemasan logistik (Box, Pallet, dsb) |
+| `remarks` | VARCHAR(255) NULL | - | Keterangan lot part / nomor cetakan |
 
 ---
 
 ## 3. Logika Transaksi & Integritas Data (Database Transaction)
 
-Proses konfirmasi Goods Receipt (GR) adalah **titik kritis sistem**. Untuk mencegah anomali data jika terjadi kegagalan jaringan atau server padam, operasi dijalankan dalam satu blok transaksi database:
-
+### 3.1 Transaksi Penerimaan Barang (Goods Receipt - Stock IN)
 ```sql
 START TRANSACTION;
 
@@ -199,7 +233,7 @@ UPDATE items
 SET stock = stock + 10 
 WHERE id = 5;
 
--- 3. Catat kartu stok (Audit Trail)
+-- 3. Catat kartu stok (Audit Trail IN)
 INSERT INTO stock_mutations (item_id, mutation_type, reference_no, qty_in, qty_out, balance, notes)
 VALUES (5, 'IN', 'GR/NKP/2026/09/0001', 10, 0, 25, 'Penerimaan PO PO/NKP/2026/09/0001');
 
@@ -210,4 +244,24 @@ WHERE id = 1;
 
 COMMIT;
 ```
-Jika salah satu dari 4 perintah di atas gagal, sistem secara otomatis mengeksekusi `ROLLBACK;` sehingga tidak akan terjadi selisih antara stok fisik dan catatan pembelian.
+
+### 3.2 Transaksi Pengeluaran Barang (Surat Jalan - Stock OUT)
+```sql
+START TRANSACTION;
+
+-- 1. Catat dokumen Surat Jalan
+INSERT INTO delivery_notes (sj_number, created_by, recipient_type, recipient_name, recipient_address, vehicle_no, driver_name, delivery_date, status)
+VALUES ('SJ/NKP/2026/09/0003', 4, 'Customer', 'PT Astra Honda Motor', 'Kawasan MM2100', 'B 9481 NKP', 'Mulyadi', CURDATE(), 'Shipped');
+
+-- 2. Kurangi kuantitas fisik di master barang (Validasi stock >= qty_shipped)
+UPDATE items 
+SET stock = stock - 50 
+WHERE id = 7 AND stock >= 50;
+
+-- 3. Catat kartu mutasi pengeluaran (Audit Trail OUT)
+INSERT INTO stock_mutations (item_id, mutation_type, reference_no, qty_in, qty_out, balance, notes)
+VALUES (7, 'OUT', 'SJ/NKP/2026/09/0003', 0, 50, 1200, 'Pengiriman Surat Jalan ke PT Astra Honda Motor (B 9481 NKP)');
+
+COMMIT;
+```
+Jika salah satu dari perintah di atas gagal atau stok barang tidak mencukupi, sistem secara otomatis mengeksekusi `ROLLBACK;` sehingga tidak akan terjadi selisih antara stok fisik dan catatan sistem.

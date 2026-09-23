@@ -173,3 +173,6 @@ Berikut narasi SOP resmi yang melengkapi diagram di atas untuk dicantumkan di la
 3. **SOP-NKP-WHS-01 (Penerimaan dan Karantina Barang):**
    - Barang yang tiba di *Receiving Dock* wajib dicocokkan antara fisik barang, Surat Jalan Supplier, dan dokumen Purchase Order yang terdaftar pada sistem SIP-NKP.
    - Barang yang tidak lolos uji QC (*Reject*) tidak dimasukkan ke dalam stok aktif dan langsung diterbitkan nota pengembalian (*Return Notice*).
+4. **SOP-NKP-LOG-01 (Penerbitan Surat Jalan & Pengeluaran Barang):**
+   - Setiap pengiriman komponen atau suku cadang keluar pabrik PT NKP wajib disertai dokumen **Surat Jalan (Delivery Note)** resmi bertanda tangan lengkap 4 pihak (Gudang, Pos Keamanan/Security, Supir Armada, dan Pelanggan/Customer).
+   - Penerbitan Surat Jalan secara otomatis memotong saldo stok fisik di rak gudang (*Stock OUT*) dan mencatat riwayat pergerakan pada Kartu Mutasi Inventaris.

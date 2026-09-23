@@ -63,14 +63,15 @@ Gunakan akun di bawah ini untuk menguji hak akses masing-masing departemen atau 
 
 ### 📦 4. Agus Setiawan — Petugas Gudang & Logistik
 - **Username:** `agus` | **Password:** `password123` | **Role:** `warehouse`
-- **Fokus Kerja:** Tahap 4 (Penerimaan Fisik & Update Stok)
+- **Fokus Kerja:** Tahap 4 (Penerimaan Fisik & Update Stok) & Pengeluaran Barang (Surat Jalan)
 - **Tanggung Jawab:**
   - Menyambut kiriman barang dari ekspedisi/sopir vendor di area *Receiving Dock*.
   - Memeriksa nomor Surat Jalan (Delivery Note) dan hasil inspeksi mutu (*QC Passed / Rejected*).
-  - Melakukan konfirmasi **Goods Receipt (GR)** yang secara otomatis:
-    1. Menambah kuantitas stok fisik di master inventaris.
-    2. Mencatat mutasi kartu stok barang masuk (*Audit Trail IN*).
-    3. Mengubah status dokumen PO menjadi *Completed*.
+  - Melakukan konfirmasi **Goods Receipt (GR)** yang secara otomatis menambah stok fisik (*Audit Trail IN*).
+  - Menerbitkan **Surat Jalan (Delivery Note)** resmi PT NKP untuk pengiriman part/komponen ke customer atau antar-plant, yang secara otomatis:
+    1. Mengurangi stok fisik di rak gudang (*Stock OUT*).
+    2. Mencatat mutasi keluar pada kartu stok inventaris.
+    3. Mencetak lembar fisik Surat Jalan format A4 standar ISO lengkap dengan 4 kolom tanda tangan.
 
 ---
 
@@ -94,6 +95,7 @@ Setiap role dibatasi secara ketat (*Separation of Duties*) untuk mencegah manipu
 | **Tahap 2: Setujui / Tolak PR** | ❌ Akses Ditolak | ✅ **Wewenang Utama** | ❌ Akses Ditolak | ❌ Akses Ditolak | ✅ Akses Penuh |
 | **Tahap 3: Terbitkan PO & Cetak A4** | ❌ Akses Ditolak | ❌ Akses Ditolak | ✅ **Wewenang Utama** | ❌ Akses Ditolak | ✅ Akses Penuh |
 | **Tahap 4: Konfirmasi GR & Stok** | ❌ Akses Ditolak | ❌ Akses Ditolak | ❌ Akses Ditolak | ✅ **Wewenang Utama** | ✅ Akses Penuh |
+| **Surat Jalan (Delivery Note & OUT)** | 👁️ Hanya Lihat | 👁️ Hanya Lihat | 👁️ Hanya Lihat | ✅ **Wewenang Utama** | ✅ Akses Penuh |
 | **Katalog Suku Cadang & Rak** | 👁️ Hanya Lihat | 👁️ Hanya Lihat | 👁️ Hanya Lihat | ✅ Tambah / Edit | ✅ Akses Penuh |
 | **Kartu Mutasi Stok Masuk/Keluar** | 👁️ Hanya Lihat | 👁️ Hanya Lihat | 👁️ Hanya Lihat | 👁️ Hanya Lihat | ✅ Akses Penuh |
 | **Kelola Mitra Vendor Supplier** | ❌ Menu Tersembunyi | ❌ Menu Tersembunyi | ✅ Kelola Rekanan | ❌ Menu Tersembunyi | ✅ Akses Penuh |

@@ -2,6 +2,7 @@
 use App\Helpers\AuthHelper;
 use App\Models\PurchaseRequisition;
 use App\Models\Item;
+use App\Models\DeliveryNote;
 
 $currentPage = $_GET['page'] ?? 'dashboard';
 $user = AuthHelper::user();
@@ -9,9 +10,10 @@ $role = $user['role'] ?? 'requester';
 
 $pendingPRCount = PurchaseRequisition::countPending();
 $criticalStockCount = Item::countCritical();
+$activeDNCount = DeliveryNote::countActive();
 
 // Helper untuk merender list item navigasi
-$renderNavLinks = function() use ($currentPage, $role, $pendingPRCount, $criticalStockCount) {
+$renderNavLinks = function() use ($currentPage, $role, $pendingPRCount, $criticalStockCount, $activeDNCount) {
 ?>
     <!-- Dashboard Utama -->
     <a href="index.php?page=dashboard" 
@@ -74,7 +76,7 @@ $renderNavLinks = function() use ($currentPage, $role, $pendingPRCount, $critica
 
     <!-- DIVISI 2: DATA MASTER & GUDANG INVENTARIS -->
     <div class="nkp-sidebar-heading">
-        Data Master & Stok
+        Data Master & Logistik
     </div>
 
     <!-- Master Stok Barang -->
@@ -98,11 +100,25 @@ $renderNavLinks = function() use ($currentPage, $role, $pendingPRCount, $critica
         <span class="text-truncate">Kartu Mutasi Stok</span>
     </a>
 
+    <!-- Surat Jalan (Delivery Note) -->
+    <a href="index.php?page=delivery-notes" 
+       class="nav-link justify-content-between <?= in_array($currentPage, ['delivery-notes', 'delivery-note-create', 'delivery-note-detail', 'delivery-note-print']) ? 'active' : '' ?>">
+        <div class="d-flex align-items-center text-truncate">
+            <i data-lucide="truck" class="me-2" style="width: 16px; height: 16px;"></i>
+            <span class="text-truncate">Surat Jalan (SJ)</span>
+        </div>
+        <?php if ($activeDNCount > 0): ?>
+            <span class="badge rounded-pill <?= in_array($currentPage, ['delivery-notes', 'delivery-note-create']) ? 'bg-dark text-warning' : 'bg-primary text-white' ?>" style="font-size: 0.65rem;">
+                <?= $activeDNCount ?> Kirim
+            </span>
+        <?php endif; ?>
+    </a>
+
     <!-- Master Supplier (Purchasing, Admin) -->
     <?php if (in_array($role, ['purchasing', 'admin'])): ?>
         <a href="index.php?page=suppliers" 
            class="nav-link <?= $currentPage === 'suppliers' ? 'active' : '' ?>">
-            <i data-lucide="truck" class="me-2" style="width: 16px; height: 16px;"></i>
+            <i data-lucide="building-2" class="me-2" style="width: 16px; height: 16px;"></i>
             <span class="text-truncate">Data Supplier</span>
         </a>
     <?php endif; ?>

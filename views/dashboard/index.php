@@ -30,6 +30,11 @@ $user = AuthHelper::user();
                 <i data-lucide="package-check" class="text-warning" style="width: 16px; height: 16px;"></i>
                 <span>Penerimaan Barang</span>
             </a>
+            <a href="index.php?page=delivery-note-create" 
+               class="btn btn-outline-dark btn-sm fw-semibold px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm">
+                <i data-lucide="truck" class="text-primary" style="width: 16px; height: 16px;"></i>
+                <span>+ Buat Surat Jalan</span>
+            </a>
         <?php endif; ?>
     </div>
 </div>

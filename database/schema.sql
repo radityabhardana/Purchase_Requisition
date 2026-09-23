@@ -8,6 +8,8 @@ CREATE DATABASE IF NOT EXISTS `nkp_inventaris` CHARACTER SET utf8mb4 COLLATE utf
 USE `nkp_inventaris`;
 
 SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS `delivery_note_items`;
+DROP TABLE IF EXISTS `delivery_notes`;
 DROP TABLE IF EXISTS `stock_mutations`;
 DROP TABLE IF EXISTS `gr_items`;
 DROP TABLE IF EXISTS `goods_receipts`;
@@ -161,3 +163,34 @@ CREATE TABLE `stock_mutations` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_mutation_item` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 11. TABEL SURAT JALAN / PENGIRIMAN BARANG (DELIVERY NOTES)
+CREATE TABLE `delivery_notes` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `sj_number` VARCHAR(40) NOT NULL UNIQUE,
+    `created_by` INT NOT NULL,
+    `recipient_type` ENUM('Customer', 'Vendor/Subcont', 'Internal Plant') NOT NULL DEFAULT 'Customer',
+    `recipient_name` VARCHAR(150) NOT NULL,
+    `recipient_address` TEXT NOT NULL,
+    `customer_po_no` VARCHAR(100) NULL,
+    `vehicle_no` VARCHAR(30) NOT NULL,
+    `driver_name` VARCHAR(100) NOT NULL,
+    `delivery_date` DATE NOT NULL,
+    `status` ENUM('Draft', 'Shipped', 'Delivered', 'Cancelled') NOT NULL DEFAULT 'Shipped',
+    `notes` TEXT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_dn_creator` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 12. TABEL RINCIAN ITEM SURAT JALAN
+CREATE TABLE `delivery_note_items` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `delivery_note_id` INT NOT NULL,
+    `item_id` INT NOT NULL,
+    `qty_shipped` INT NOT NULL,
+    `packaging` VARCHAR(50) NOT NULL DEFAULT 'Box / Pallet',
+    `remarks` VARCHAR(255) NULL,
+    CONSTRAINT `fk_dnitem_dn` FOREIGN KEY (`delivery_note_id`) REFERENCES `delivery_notes` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `fk_dnitem_item` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
