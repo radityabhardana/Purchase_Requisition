@@ -20,7 +20,7 @@ $statusFilter = $_GET['status'] ?? '';
     </div>
 
     <a href="index.php?page=pr-create" 
-       class="btn btn-action-primary btn-sm px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm">
+       class="btn btn-warning btn-sm fw-bold px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm text-dark" style="background-color: var(--nkp-amber-500); border: none;">
         <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i>
         <span>+ Buat Pengajuan PR Baru</span>
     </a>

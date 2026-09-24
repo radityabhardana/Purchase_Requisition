@@ -19,19 +19,19 @@ $user = AuthHelper::user();
     <!-- Tombol Aksi Cepat -->
     <div class="d-flex align-items-center gap-2">
         <a href="index.php?page=pr-create" 
-           class="btn btn-action-primary btn-sm px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm">
+           class="btn btn-warning btn-sm fw-bold px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm text-dark" style="background-color: var(--nkp-amber-500); border: none;">
             <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i>
             <span>+ Buat Pengajuan PR</span>
         </a>
         
         <?php if (in_array($user['role'], ['warehouse', 'admin'])): ?>
             <a href="index.php?page=gr" 
-               class="btn btn-action-secondary btn-sm px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm">
-                <i data-lucide="package-check" style="width: 16px; height: 16px;"></i>
+               class="btn btn-dark btn-sm fw-semibold px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm text-white">
+                <i data-lucide="package-check" class="text-warning" style="width: 16px; height: 16px;"></i>
                 <span>Penerimaan Barang</span>
             </a>
             <a href="index.php?page=delivery-note-create" 
-               class="btn btn-action-secondary btn-sm px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm">
+               class="btn btn-primary btn-sm fw-semibold px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm text-white">
                 <i data-lucide="truck" style="width: 16px; height: 16px;"></i>
                 <span>+ Buat Surat Jalan</span>
             </a>
@@ -39,163 +39,118 @@ $user = AuthHelper::user();
     </div>
 </div>
 
-<!-- PETA ALUR KERJA UTAMA PENGADAAN (PANDUAN VISUAL SEKUENSIAL 1 S.D 4) -->
-<div class="card border mb-4 shadow-sm">
-    <div class="card-body p-3 p-sm-4">
-        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 pb-3 mb-3 border-bottom">
-            <div>
-                <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-warning text-dark p-1.5 rounded-2 d-flex align-items-center justify-content-center">
-                        <i data-lucide="git-merge" style="width: 16px; height: 16px;"></i>
-                    </span>
-                    <h2 class="h6 fw-bold text-dark text-uppercase mb-0 tracking-wide">
-                        Peta Alur Kerja Pengadaan Barang (Urutan 1 s.d 4)
-                    </h2>
-                </div>
-                <p class="text-secondary small mb-0 mt-1">
-                    Alur kerja berjalan dari kiri ke kanan. Ikuti tahapan berurutan sesuai peran departemen Anda.
-                </p>
+<!-- PETA ALUR KERJA RINGKAS (STEPPER PIPELINE) -->
+<div class="card border shadow-sm mb-4">
+    <div class="card-body p-3">
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3 pb-2 border-bottom">
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-warning text-dark p-1.5 rounded-2 d-flex align-items-center justify-content-center">
+                    <i data-lucide="git-merge" style="width: 15px; height: 15px;"></i>
+                </span>
+                <span class="h6 fw-bold text-dark text-uppercase mb-0 tracking-wide small">
+                    Alur Kerja Pengadaan Barang (Urutan 1 s.d 4)
+                </span>
             </div>
-
-            <div class="d-flex align-items-center gap-2 small">
-                <span class="text-muted">Departemen Anda:</span>
-                <span class="badge bg-light text-dark border px-2.5 py-1.5 text-uppercase fw-bold">
+            <div class="d-flex align-items-center gap-1.5 small text-muted">
+                <span>Peran:</span>
+                <span class="badge bg-light text-dark border px-2 py-1 text-uppercase fw-bold">
                     <?= htmlspecialchars($user['department'] ?? ucfirst($user['role'])) ?>
                 </span>
             </div>
         </div>
 
-        <!-- 4 KARTU TAHAPAN BERURUTAN -->
-        <div class="row g-3">
-            <!-- TAHAP 1: PR -->
-            <div class="col-12 col-md-6 col-xl-3">
-                <div class="workflow-step-card h-100 d-flex flex-column justify-content-between <?= in_array($user['role'], ['requester', 'admin']) ? 'active-duty' : '' ?>">
-                    <div>
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="badge bg-dark text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 24px; height: 24px; font-size: 0.75rem;">1</span>
-                                <span class="fw-bold text-dark small">Pengajuan PR</span>
-                            </div>
+        <!-- 4 Step Pipeline -->
+        <div class="row g-2 align-items-center">
+            <!-- Step 1: PR -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <a href="index.php?page=pr" class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-decoration-none text-dark <?= in_array($user['role'], ['requester', 'admin']) ? 'active-step' : '' ?>" title="Klik untuk membuka menu Pengajuan PR">
+                    <div class="stepper-circle bg-warning text-dark me-2.5">1</div>
+                    <div class="flex-grow-1 overflow-hidden">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="fw-bold small text-truncate">Pengajuan PR</span>
                             <?php if (in_array($user['role'], ['requester', 'admin'])): ?>
-                                <span class="badge bg-warning text-dark px-2 py-0.5 rounded-pill" style="font-size: 0.65rem;">Tugas Anda</span>
+                                <span class="badge bg-warning text-dark px-1.5 py-0.5 rounded-pill" style="font-size: 0.6rem;">Tugas Anda</span>
                             <?php endif; ?>
                         </div>
-                        <div class="text-muted fw-semibold small mb-1" style="font-size: 0.75rem;">Pelaksana: Teknisi / Pemohon</div>
-                        <p class="text-secondary small mb-3 lh-sm" style="font-size: 0.75rem;">
-                            Pilih barang dari katalog, tentukan tanggal target & jumlah kebutuhan mesin.
-                        </p>
+                        <div class="text-secondary" style="font-size: 0.72rem;">Teknisi / Pemohon</div>
                     </div>
-                    <a href="index.php?page=pr-create" 
-                       class="btn btn-action-primary btn-sm w-100 fw-bold d-flex align-items-center justify-content-center gap-1.5 shadow-sm">
-                        <i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i>
-                        <span>+ Buat Pengajuan PR</span>
-                    </a>
-                </div>
+                </a>
             </div>
 
-            <!-- TAHAP 2: APPROVAL SPV -->
-            <div class="col-12 col-md-6 col-xl-3">
-                <div class="workflow-step-card h-100 d-flex flex-column justify-content-between <?= in_array($user['role'], ['supervisor', 'admin']) ? 'active-duty' : '' ?>">
-                    <div>
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="badge bg-dark text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 24px; height: 24px; font-size: 0.75rem;">2</span>
-                                <span class="fw-bold text-dark small">Persetujuan SPV</span>
-                            </div>
+            <!-- Step 2: Approval SPV -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <?php if (in_array($user['role'], ['supervisor', 'admin'])): ?>
+                <a href="index.php?page=pr&status=Pending" class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-decoration-none text-dark active-step" title="Klik untuk memeriksa PR yang menunggu persetujuan">
+                    <div class="stepper-circle bg-success text-white me-2.5">2</div>
+                    <div class="flex-grow-1 overflow-hidden">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="fw-bold small text-truncate">Persetujuan SPV</span>
                             <?php if ($kpi['pending_pr'] > 0): ?>
-                                <span class="badge badge-subtle-amber px-2 py-0.5 rounded-pill" style="font-size: 0.65rem;"><?= $kpi['pending_pr'] ?> Antre</span>
+                                <span class="badge bg-danger text-white px-1.5 py-0.5 rounded-pill" style="font-size: 0.6rem;"><?= $kpi['pending_pr'] ?> Antre</span>
                             <?php else: ?>
-                                <span class="badge badge-subtle-slate px-2 py-0.5 rounded-pill" style="font-size: 0.65rem;">Selesai</span>
+                                <span class="badge bg-success-subtle text-success px-1.5 py-0.5 rounded-pill" style="font-size: 0.6rem;">Selesai</span>
                             <?php endif; ?>
                         </div>
-                        <div class="text-muted fw-semibold small mb-1" style="font-size: 0.75rem;">Pelaksana: Supervisor (SPV)</div>
-                        <p class="text-secondary small mb-3 lh-sm" style="font-size: 0.75rem;">
-                            Verifikasi urgensi breakdown, cek anggaran, dan setujui / tolak dokumen PR.
-                        </p>
+                        <div class="text-secondary" style="font-size: 0.72rem;">Supervisor Dept</div>
                     </div>
-                    <?php if (in_array($user['role'], ['supervisor', 'admin'])): ?>
-                    <a href="index.php?page=pr&status=Pending" 
-                       class="btn btn-action-primary btn-sm w-100 fw-bold d-flex align-items-center justify-content-center gap-1.5 shadow-sm">
-                        <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
-                        <span>Periksa & Setujui PR</span>
-                    </a>
-                    <?php else: ?>
-                    <button type="button" disabled 
-                            class="btn btn-light btn-sm w-100 text-muted border fw-semibold d-flex align-items-center justify-content-center gap-1.5"
-                            title="Khusus Supervisor & Admin">
-                        <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
-                        <span>Khusus Supervisor</span>
-                    </button>
-                    <?php endif; ?>
+                </a>
+                <?php else: ?>
+                <div class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-muted bg-light border-0">
+                    <div class="stepper-circle bg-secondary text-white opacity-50 me-2.5">2</div>
+                    <div class="flex-grow-1 overflow-hidden">
+                        <span class="fw-semibold small text-truncate text-secondary d-block">Persetujuan SPV</span>
+                        <div class="text-muted" style="font-size: 0.72rem;">Supervisor Dept</div>
+                    </div>
                 </div>
+                <?php endif; ?>
             </div>
 
-            <!-- TAHAP 3: PURCHASE ORDER -->
-            <div class="col-12 col-md-6 col-xl-3">
-                <div class="workflow-step-card h-100 d-flex flex-column justify-content-between <?= in_array($user['role'], ['purchasing', 'admin']) ? 'active-duty' : '' ?>">
-                    <div>
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="badge bg-dark text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 24px; height: 24px; font-size: 0.75rem;">3</span>
-                                <span class="fw-bold text-dark small">Penerbitan PO</span>
-                            </div>
-                            <?php if (in_array($user['role'], ['purchasing', 'admin'])): ?>
-                                <span class="badge bg-warning text-dark px-2 py-0.5 rounded-pill" style="font-size: 0.65rem;">Tugas Anda</span>
-                            <?php endif; ?>
+            <!-- Step 3: Purchase Order -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <?php if (in_array($user['role'], ['purchasing', 'admin'])): ?>
+                <a href="index.php?page=po" class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-decoration-none text-dark active-step" title="Klik untuk menerbitkan Purchase Order">
+                    <div class="stepper-circle bg-primary text-white me-2.5">3</div>
+                    <div class="flex-grow-1 overflow-hidden">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="fw-bold small text-truncate">Penerbitan PO</span>
+                            <span class="badge bg-primary text-white px-1.5 py-0.5 rounded-pill" style="font-size: 0.6rem;">Tugas Anda</span>
                         </div>
-                        <div class="text-muted fw-semibold small mb-1" style="font-size: 0.75rem;">Pelaksana: Purchasing Dept</div>
-                        <p class="text-secondary small mb-3 lh-sm" style="font-size: 0.75rem;">
-                            Pilih vendor rekanan resmi PT NKP, tentukan harga, PPN, dan cetak lembar PO A4.
-                        </p>
+                        <div class="text-secondary" style="font-size: 0.72rem;">Purchasing Dept</div>
                     </div>
-                    <?php if (in_array($user['role'], ['purchasing', 'admin'])): ?>
-                    <a href="index.php?page=po" 
-                       class="btn btn-action-primary btn-sm w-100 fw-bold d-flex align-items-center justify-content-center gap-1.5 shadow-sm">
-                        <i data-lucide="shopping-cart" style="width: 14px; height: 14px;"></i>
-                        <span>Menu Purchase Order</span>
-                    </a>
-                    <?php else: ?>
-                    <button type="button" disabled 
-                            class="btn btn-light btn-sm w-100 text-muted border fw-semibold d-flex align-items-center justify-content-center gap-1.5"
-                            title="Khusus Divisi Purchasing & Admin">
-                        <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
-                        <span>Khusus Purchasing</span>
-                    </button>
-                    <?php endif; ?>
+                </a>
+                <?php else: ?>
+                <div class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-muted bg-light border-0">
+                    <div class="stepper-circle bg-secondary text-white opacity-50 me-2.5">3</div>
+                    <div class="flex-grow-1 overflow-hidden">
+                        <span class="fw-semibold small text-truncate text-secondary d-block">Penerbitan PO</span>
+                        <div class="text-muted" style="font-size: 0.72rem;">Purchasing Dept</div>
+                    </div>
                 </div>
+                <?php endif; ?>
             </div>
 
-            <!-- TAHAP 4: PENERIMAAN BARANG -->
-            <div class="col-12 col-md-6 col-xl-3">
-                <div class="workflow-step-card h-100 d-flex flex-column justify-content-between <?= in_array($user['role'], ['warehouse', 'admin']) ? 'active-duty' : '' ?>">
-                    <div>
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="badge bg-dark text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 24px; height: 24px; font-size: 0.75rem;">4</span>
-                                <span class="fw-bold text-dark small">Penerimaan (GR)</span>
-                            </div>
-                            <span class="badge badge-subtle-slate px-2 py-0.5 rounded-pill" style="font-size: 0.65rem;">Auto-Sync</span>
+            <!-- Step 4: Penerimaan Barang -->
+            <div class="col-12 col-sm-6 col-xl-3">
+                <?php if (in_array($user['role'], ['warehouse', 'admin'])): ?>
+                <a href="index.php?page=gr" class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-decoration-none text-dark active-step" title="Klik untuk memproses penerimaan barang (GR)">
+                    <div class="stepper-circle text-white me-2.5" style="background-color: #0d9488;">4</div>
+                    <div class="flex-grow-1 overflow-hidden">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="fw-bold small text-truncate">Penerimaan (GR)</span>
+                            <span class="badge text-white px-1.5 py-0.5 rounded-pill" style="font-size: 0.6rem; background-color: #0d9488;">Tugas Anda</span>
                         </div>
-                        <div class="text-muted fw-semibold small mb-1" style="font-size: 0.75rem;">Pelaksana: Warehouse (Gudang)</div>
-                        <p class="text-secondary small mb-3 lh-sm" style="font-size: 0.75rem;">
-                            Cocokkan Surat Jalan vendor, input uji QC, dan stok gudang otomatis bertambah.
-                        </p>
+                        <div class="text-secondary" style="font-size: 0.72rem;">Warehouse (Gudang)</div>
                     </div>
-                    <?php if (in_array($user['role'], ['warehouse', 'admin'])): ?>
-                    <a href="index.php?page=gr" 
-                       class="btn btn-action-primary btn-sm w-100 fw-bold d-flex align-items-center justify-content-center gap-1.5 shadow-sm">
-                        <i data-lucide="package-check" style="width: 14px; height: 14px;"></i>
-                        <span>Penerimaan Barang</span>
-                    </a>
-                    <?php else: ?>
-                    <button type="button" disabled 
-                            class="btn btn-light btn-sm w-100 text-muted border fw-semibold d-flex align-items-center justify-content-center gap-1.5"
-                            title="Khusus Divisi Warehouse & Admin">
-                        <i data-lucide="lock" style="width: 14px; height: 14px;"></i>
-                        <span>Khusus Warehouse</span>
-                    </button>
-                    <?php endif; ?>
+                </a>
+                <?php else: ?>
+                <div class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-muted bg-light border-0">
+                    <div class="stepper-circle bg-secondary text-white opacity-50 me-2.5">4</div>
+                    <div class="flex-grow-1 overflow-hidden">
+                        <span class="fw-semibold small text-truncate text-secondary d-block">Penerimaan (GR)</span>
+                        <div class="text-muted" style="font-size: 0.72rem;">Warehouse (Gudang)</div>
+                    </div>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -205,17 +160,17 @@ $user = AuthHelper::user();
 <div class="row g-3 mb-4">
     <!-- Card 1: Pending PR -->
     <div class="col-12 col-sm-6 col-lg-3">
-        <a href="index.php?page=pr&status=Pending" class="kpi-card d-block p-3 text-decoration-none text-dark h-100">
+        <a href="index.php?page=pr&status=Pending" class="kpi-card d-block text-decoration-none text-dark h-100">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="text-secondary small fw-bold text-uppercase">PR Menunggu Approval</span>
-                <div class="kpi-icon-well">
-                    <i data-lucide="clock" style="width: 17px; height: 17px;"></i>
+                <div class="kpi-icon-amber">
+                    <i data-lucide="clock" style="width: 18px; height: 18px;"></i>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-baseline mt-2">
                 <div class="h3 fw-black text-dark mb-0 font-monospace"><?= $kpi['pending_pr'] ?></div>
                 <?php if ($kpi['pending_pr'] > 0): ?>
-                    <span class="badge badge-subtle-amber px-2 py-0.5 rounded-pill">Butuh SPV &rarr;</span>
+                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-2 py-0.5 rounded-pill fw-semibold">Butuh SPV &rarr;</span>
                 <?php else: ?>
                     <span class="text-secondary small">Normal</span>
                 <?php endif; ?>
@@ -226,24 +181,24 @@ $user = AuthHelper::user();
     <!-- Card 2: Active PO -->
     <div class="col-12 col-sm-6 col-lg-3">
         <?php if (in_array($user['role'], ['purchasing', 'admin'])): ?>
-        <a href="index.php?page=po" class="kpi-card d-block p-3 text-decoration-none text-dark h-100">
+        <a href="index.php?page=po" class="kpi-card d-block text-decoration-none text-dark h-100">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="text-secondary small fw-bold text-uppercase">PO Aktif (Dalam Proses)</span>
-                <div class="kpi-icon-well">
-                    <i data-lucide="truck" style="width: 17px; height: 17px;"></i>
+                <div class="kpi-icon-blue">
+                    <i data-lucide="truck" style="width: 18px; height: 18px;"></i>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-baseline mt-2">
                 <div class="h3 fw-black text-dark mb-0 font-monospace"><?= $kpi['active_po'] ?></div>
-                <span class="text-secondary small fw-medium">Dalam Pengiriman &rarr;</span>
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-0.5 rounded-pill fw-semibold">Dalam Kirim &rarr;</span>
             </div>
         </a>
         <?php else: ?>
-        <div class="kpi-card p-3 h-100">
+        <div class="kpi-card h-100">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="text-secondary small fw-bold text-uppercase">PO Aktif (Dalam Proses)</span>
-                <div class="kpi-icon-well">
-                    <i data-lucide="truck" style="width: 17px; height: 17px;"></i>
+                <div class="kpi-icon-blue">
+                    <i data-lucide="truck" style="width: 18px; height: 18px;"></i>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-baseline mt-2">
@@ -258,19 +213,19 @@ $user = AuthHelper::user();
 
     <!-- Card 3: Safety Stock Alert -->
     <div class="col-12 col-sm-6 col-lg-3">
-        <a href="index.php?page=items" class="kpi-card d-block p-3 text-decoration-none text-dark h-100 <?= $kpi['critical_stock'] > 0 ? 'border-danger' : '' ?>">
+        <a href="index.php?page=items" class="kpi-card d-block text-decoration-none text-dark h-100 <?= $kpi['critical_stock'] > 0 ? 'border-danger bg-danger-subtle bg-opacity-10' : '' ?>">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="text-secondary small fw-bold text-uppercase">Stok Suku Cadang Kritis</span>
-                <div class="kpi-icon-well <?= $kpi['critical_stock'] > 0 ? 'bg-danger-subtle text-danger' : '' ?>">
-                    <i data-lucide="alert-triangle" style="width: 17px; height: 17px;"></i>
+                <div class="kpi-icon-rose <?= $kpi['critical_stock'] > 0 ? 'bg-danger text-white' : '' ?>">
+                    <i data-lucide="alert-triangle" style="width: 18px; height: 18px;"></i>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-baseline mt-2">
                 <div class="h3 fw-black <?= $kpi['critical_stock'] > 0 ? 'text-danger' : 'text-dark' ?> mb-0 font-monospace"><?= $kpi['critical_stock'] ?></div>
                 <?php if ($kpi['critical_stock'] > 0): ?>
-                    <span class="badge badge-subtle-crimson px-2 py-0.5 rounded-pill">Segera di-PO</span>
+                    <span class="badge bg-danger text-white px-2 py-0.5 rounded-pill fw-bold">Segera di-PO</span>
                 <?php else: ?>
-                    <span class="badge badge-subtle-slate px-2 py-0.5 rounded-pill">Aman</span>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-0.5 rounded-pill">Aman</span>
                 <?php endif; ?>
             </div>
         </a>
@@ -278,18 +233,18 @@ $user = AuthHelper::user();
 
     <!-- Card 4: Total Spend -->
     <div class="col-12 col-sm-6 col-lg-3">
-        <div class="kpi-card p-3 h-100">
+        <div class="kpi-card h-100">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="text-secondary small fw-bold text-uppercase">Total Nilai Pengadaan</span>
-                <div class="kpi-icon-well">
-                    <i data-lucide="wallet" style="width: 17px; height: 17px;"></i>
+                <div class="kpi-icon-emerald">
+                    <i data-lucide="wallet" style="width: 18px; height: 18px;"></i>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-baseline mt-2">
                 <div class="h5 fw-black text-dark text-truncate mb-0 font-monospace" title="<?= FormatHelper::rupiah($kpi['total_spend']) ?>">
                     <?= FormatHelper::rupiah($kpi['total_spend']) ?>
                 </div>
-                <span class="text-secondary small fw-medium">Tahun Ini</span>
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-0.5 rounded-pill fw-semibold">Tahun Berjalan</span>
             </div>
         </div>
     </div>

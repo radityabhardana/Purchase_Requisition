@@ -25,7 +25,7 @@ $searchQuery = $_GET['search'] ?? '';
     <?php if ($canCreate): ?>
     <div class="d-flex align-items-center gap-2">
         <a href="index.php?page=delivery-note-create" 
-           class="btn btn-action-primary btn-sm px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm">
+           class="btn btn-warning btn-sm fw-bold px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm text-dark" style="background-color: var(--nkp-amber-500); border: none;">
             <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i>
             <span>+ Buat Surat Jalan Baru</span>
         </a>

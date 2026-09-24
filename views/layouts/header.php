@@ -22,7 +22,7 @@ $flash = AuthHelper::getFlash();
     <link rel="stylesheet" href="css/bootstrap-icons.min.css">
     
     <!-- Custom Theme & Local Fonts CSS PT NKP -->
-    <link rel="stylesheet" href="css/bootstrap-custom.css">
+    <link rel="stylesheet" href="css/bootstrap-custom.css?v=<?= file_exists(__DIR__ . '/../../css/bootstrap-custom.css') ? filemtime(__DIR__ . '/../../css/bootstrap-custom.css') : time() ?>">
     
     <!-- Local Lucide Icons -->
     <script src="js/lucide.min.js"></script>

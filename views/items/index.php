@@ -21,8 +21,8 @@ $categories = ['Mechanical', 'Electrical', 'Raw Material', 'Consumables', 'Safet
     </div>
 
     <?php if ($canManage): ?>
-    <button type="button" class="btn btn-action-primary btn-sm px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm"
-            data-bs-toggle="modal" data-bs-target="#modalAddItem">
+    <button type="button" class="btn btn-warning btn-sm fw-bold px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm text-dark"
+            data-bs-toggle="modal" data-bs-target="#modalAddItem" style="background-color: var(--nkp-amber-500); border: none;">
         <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
         <span>Tambah Barang Baru</span>
     </button>
