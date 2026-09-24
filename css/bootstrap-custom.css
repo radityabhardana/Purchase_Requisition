@@ -467,6 +467,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .workflow-stepper-item {
     background-color: #ffffff;
     border: 1px solid var(--nkp-border);
+    padding: 0.85rem 1.15rem !important;
+    min-height: 64px;
+    border-radius: 0.75rem;
     transition: all 0.15s ease-in-out;
 }
 .workflow-stepper-item:hover {
@@ -499,6 +502,7 @@ a.stepper-stage:hover {
     font-weight: 700;
     font-size: 0.85rem;
     flex-shrink: 0;
+    margin-right: 0.85rem !important;
 }
 .stepper-arrow {
     color: #94a3b8;
