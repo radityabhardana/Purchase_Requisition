@@ -141,8 +141,14 @@ class PRController
         }
 
         PurchaseRequisition::approve($id, (int)$user['id']);
-        AuthHelper::setFlash('success', "Dokumen {$pr['pr_number']} telah berhasil DISETUJUI dan diteruskan ke Purchasing.");
-        header("Location: index.php?page=pr-detail&id={$id}");
+        AuthHelper::setFlash('success', "Dokumen {$pr['pr_number']} telah berhasil DISETUJUI dan diteruskan ke antrean Purchasing.");
+
+        $redirect = trim($_POST['redirect'] ?? '');
+        if ($redirect === 'pending') {
+            header('Location: index.php?page=pr&status=Pending');
+        } else {
+            header("Location: index.php?page=pr-detail&id={$id}");
+        }
         exit;
     }
 
