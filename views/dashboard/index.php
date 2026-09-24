@@ -60,98 +60,90 @@ $user = AuthHelper::user();
         </div>
 
         <!-- 4 Step Pipeline -->
-        <div class="row g-2 align-items-center">
+        <div class="d-flex flex-column flex-xl-row align-items-xl-center justify-content-between gap-2">
             <!-- Step 1: PR -->
-            <div class="col-12 col-sm-6 col-xl-3">
-                <a href="index.php?page=pr" class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-decoration-none text-dark <?= in_array($user['role'], ['requester', 'admin']) ? 'active-step' : '' ?>" title="Klik untuk membuka menu Pengajuan PR">
-                    <div class="stepper-circle bg-warning text-dark me-2.5">1</div>
-                    <div class="flex-grow-1 overflow-hidden">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <span class="fw-bold small text-truncate">Pengajuan PR</span>
-                            <?php if (in_array($user['role'], ['requester', 'admin'])): ?>
-                                <span class="badge bg-warning text-dark px-1.5 py-0.5 rounded-pill" style="font-size: 0.6rem;">Tugas Anda</span>
-                            <?php endif; ?>
-                        </div>
-                        <div class="text-secondary" style="font-size: 0.72rem;">Teknisi / Pemohon</div>
+            <?php $isStep1 = ($user['role'] === 'requester'); ?>
+            <a href="index.php?page=pr" class="workflow-stepper-item flex-fill d-flex align-items-center p-2.5 rounded-3 text-decoration-none text-dark bg-white border <?= $isStep1 ? 'active-step border-warning shadow-sm' : '' ?>" title="Klik untuk membuka menu Pengajuan PR">
+                <div class="stepper-circle bg-warning text-dark me-2.5">1</div>
+                <div class="flex-grow-1 overflow-hidden">
+                    <div class="d-flex align-items-center justify-content-between gap-1">
+                        <span class="fw-bold small text-truncate">1. Pengajuan PR</span>
+                        <?php if ($isStep1): ?>
+                            <span class="badge bg-warning text-dark px-1.5 py-0.5 rounded-pill" style="font-size: 0.62rem;">Tugas Anda</span>
+                        <?php endif; ?>
                     </div>
-                </a>
+                    <div class="text-secondary" style="font-size: 0.72rem;">Teknisi / Pemohon</div>
+                </div>
+            </a>
+
+            <!-- Connector 1 -> 2 -->
+            <div class="d-none d-xl-flex align-items-center text-muted px-1 flex-shrink-0">
+                <i data-lucide="chevron-right" style="width: 18px; height: 18px; stroke: #94a3b8;"></i>
             </div>
 
             <!-- Step 2: Approval SPV -->
-            <div class="col-12 col-sm-6 col-xl-3">
-                <?php if (in_array($user['role'], ['supervisor', 'admin'])): ?>
-                <a href="index.php?page=pr&status=Pending" class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-decoration-none text-dark active-step" title="Klik untuk memeriksa PR yang menunggu persetujuan">
-                    <div class="stepper-circle bg-success text-white me-2.5">2</div>
-                    <div class="flex-grow-1 overflow-hidden">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <span class="fw-bold small text-truncate">Persetujuan SPV</span>
-                            <?php if ($kpi['pending_pr'] > 0): ?>
-                                <span class="badge bg-danger text-white px-1.5 py-0.5 rounded-pill" style="font-size: 0.6rem;"><?= $kpi['pending_pr'] ?> Antre</span>
+            <?php 
+            $isStep2 = ($user['role'] === 'supervisor'); 
+            $hasPendingPR = (($kpi['pending_pr'] ?? 0) > 0);
+            ?>
+            <a href="index.php?page=pr<?= ($isStep2 || in_array($user['role'], ['admin', 'supervisor'])) ? '&status=Pending' : '' ?>" class="workflow-stepper-item flex-fill d-flex align-items-center p-2.5 rounded-3 text-decoration-none text-dark bg-white border <?= $isStep2 ? 'active-step border-success shadow-sm' : '' ?>" title="Klik untuk memeriksa PR yang menunggu persetujuan">
+                <div class="stepper-circle bg-success text-white me-2.5">2</div>
+                <div class="flex-grow-1 overflow-hidden">
+                    <div class="d-flex align-items-center justify-content-between gap-1">
+                        <span class="fw-bold small text-truncate">2. Persetujuan SPV</span>
+                        <?php if ($isStep2): ?>
+                            <?php if ($hasPendingPR): ?>
+                                <span class="badge bg-danger text-white px-1.5 py-0.5 rounded-pill" style="font-size: 0.62rem;"><?= $kpi['pending_pr'] ?> Antre</span>
                             <?php else: ?>
-                                <span class="badge bg-success-subtle text-success px-1.5 py-0.5 rounded-pill" style="font-size: 0.6rem;">Selesai</span>
+                                <span class="badge bg-success text-white px-1.5 py-0.5 rounded-pill" style="font-size: 0.62rem;">Tugas Anda</span>
                             <?php endif; ?>
-                        </div>
-                        <div class="text-secondary" style="font-size: 0.72rem;">Supervisor Dept</div>
+                        <?php elseif ($user['role'] === 'admin' && $hasPendingPR): ?>
+                            <span class="badge bg-danger text-white px-1.5 py-0.5 rounded-pill" style="font-size: 0.62rem;"><?= $kpi['pending_pr'] ?> Antre</span>
+                        <?php endif; ?>
                     </div>
-                </a>
-                <?php else: ?>
-                <div class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-muted bg-light border-0">
-                    <div class="stepper-circle bg-secondary text-white opacity-50 me-2.5">2</div>
-                    <div class="flex-grow-1 overflow-hidden">
-                        <span class="fw-semibold small text-truncate text-secondary d-block">Persetujuan SPV</span>
-                        <div class="text-muted" style="font-size: 0.72rem;">Supervisor Dept</div>
-                    </div>
+                    <div class="text-secondary" style="font-size: 0.72rem;">Supervisor Dept</div>
                 </div>
-                <?php endif; ?>
+            </a>
+
+            <!-- Connector 2 -> 3 -->
+            <div class="d-none d-xl-flex align-items-center text-muted px-1 flex-shrink-0">
+                <i data-lucide="chevron-right" style="width: 18px; height: 18px; stroke: #94a3b8;"></i>
             </div>
 
             <!-- Step 3: Purchase Order -->
-            <div class="col-12 col-sm-6 col-xl-3">
-                <?php if (in_array($user['role'], ['purchasing', 'admin'])): ?>
-                <a href="index.php?page=po" class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-decoration-none text-dark active-step" title="Klik untuk menerbitkan Purchase Order">
-                    <div class="stepper-circle bg-primary text-white me-2.5">3</div>
-                    <div class="flex-grow-1 overflow-hidden">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <span class="fw-bold small text-truncate">Penerbitan PO</span>
-                            <span class="badge bg-primary text-white px-1.5 py-0.5 rounded-pill" style="font-size: 0.6rem;">Tugas Anda</span>
-                        </div>
-                        <div class="text-secondary" style="font-size: 0.72rem;">Purchasing Dept</div>
+            <?php $isStep3 = ($user['role'] === 'purchasing'); ?>
+            <a href="index.php?page=po" class="workflow-stepper-item flex-fill d-flex align-items-center p-2.5 rounded-3 text-decoration-none text-dark bg-white border <?= $isStep3 ? 'active-step border-primary shadow-sm' : '' ?>" title="Klik untuk membuka menu Purchase Order">
+                <div class="stepper-circle bg-primary text-white me-2.5">3</div>
+                <div class="flex-grow-1 overflow-hidden">
+                    <div class="d-flex align-items-center justify-content-between gap-1">
+                        <span class="fw-bold small text-truncate">3. Penerbitan PO</span>
+                        <?php if ($isStep3): ?>
+                            <span class="badge bg-primary text-white px-1.5 py-0.5 rounded-pill" style="font-size: 0.62rem;">Tugas Anda</span>
+                        <?php endif; ?>
                     </div>
-                </a>
-                <?php else: ?>
-                <div class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-muted bg-light border-0">
-                    <div class="stepper-circle bg-secondary text-white opacity-50 me-2.5">3</div>
-                    <div class="flex-grow-1 overflow-hidden">
-                        <span class="fw-semibold small text-truncate text-secondary d-block">Penerbitan PO</span>
-                        <div class="text-muted" style="font-size: 0.72rem;">Purchasing Dept</div>
-                    </div>
+                    <div class="text-secondary" style="font-size: 0.72rem;">Purchasing Dept</div>
                 </div>
-                <?php endif; ?>
+            </a>
+
+            <!-- Connector 3 -> 4 -->
+            <div class="d-none d-xl-flex align-items-center text-muted px-1 flex-shrink-0">
+                <i data-lucide="chevron-right" style="width: 18px; height: 18px; stroke: #94a3b8;"></i>
             </div>
 
             <!-- Step 4: Penerimaan Barang -->
-            <div class="col-12 col-sm-6 col-xl-3">
-                <?php if (in_array($user['role'], ['warehouse', 'admin'])): ?>
-                <a href="index.php?page=gr" class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-decoration-none text-dark active-step" title="Klik untuk memproses penerimaan barang (GR)">
-                    <div class="stepper-circle text-white me-2.5" style="background-color: #0d9488;">4</div>
-                    <div class="flex-grow-1 overflow-hidden">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <span class="fw-bold small text-truncate">Penerimaan (GR)</span>
-                            <span class="badge text-white px-1.5 py-0.5 rounded-pill" style="font-size: 0.6rem; background-color: #0d9488;">Tugas Anda</span>
-                        </div>
-                        <div class="text-secondary" style="font-size: 0.72rem;">Warehouse (Gudang)</div>
+            <?php $isStep4 = ($user['role'] === 'warehouse'); ?>
+            <a href="index.php?page=gr" class="workflow-stepper-item flex-fill d-flex align-items-center p-2.5 rounded-3 text-decoration-none text-dark bg-white border <?= $isStep4 ? 'active-step shadow-sm' : '' ?>" style="<?= $isStep4 ? 'border-color: #0d9488 !important;' : '' ?>" title="Klik untuk memproses penerimaan barang (GR)">
+                <div class="stepper-circle text-white me-2.5" style="background-color: #0d9488;">4</div>
+                <div class="flex-grow-1 overflow-hidden">
+                    <div class="d-flex align-items-center justify-content-between gap-1">
+                        <span class="fw-bold small text-truncate">4. Penerimaan (GR)</span>
+                        <?php if ($isStep4): ?>
+                            <span class="badge text-white px-1.5 py-0.5 rounded-pill" style="font-size: 0.62rem; background-color: #0d9488;">Tugas Anda</span>
+                        <?php endif; ?>
                     </div>
-                </a>
-                <?php else: ?>
-                <div class="workflow-stepper-item d-flex align-items-center p-2.5 rounded-3 text-muted bg-light border-0">
-                    <div class="stepper-circle bg-secondary text-white opacity-50 me-2.5">4</div>
-                    <div class="flex-grow-1 overflow-hidden">
-                        <span class="fw-semibold small text-truncate text-secondary d-block">Penerimaan (GR)</span>
-                        <div class="text-muted" style="font-size: 0.72rem;">Warehouse (Gudang)</div>
-                    </div>
+                    <div class="text-secondary" style="font-size: 0.72rem;">Warehouse (Gudang)</div>
                 </div>
-                <?php endif; ?>
-            </div>
+            </a>
         </div>
     </div>
 </div>

@@ -457,35 +457,55 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border: 1px solid rgba(148, 163, 184, 0.25);
 }
 
-/* Compact Stepper Pipeline */
-.workflow-stepper-item {
+/* Horizontal Procurement Pipeline Stepper */
+.procurement-stepper {
     background-color: #f8fafc;
+    border: 1px solid var(--nkp-border);
+    border-radius: 0.75rem;
+    padding: 0.85rem 1rem;
+}
+.workflow-stepper-item {
+    background-color: #ffffff;
     border: 1px solid var(--nkp-border);
     transition: all 0.15s ease-in-out;
 }
 .workflow-stepper-item:hover {
+    background-color: #f8fafc !important;
+    border-color: #94a3b8 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+}
+.workflow-stepper-item.active-step {
+    border-width: 1.5px !important;
+}
+.stepper-stage {
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.5rem;
+    transition: all 0.15s ease-in-out;
+}
+a.stepper-stage:hover {
     background-color: #ffffff;
-    border-color: #94a3b8;
     box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
     transform: translateY(-1px);
 }
-.workflow-stepper-item.active-step {
-    background-color: #ffffff;
-    border-color: #cbd5e1;
-}
-.workflow-stepper-item.active-step:hover {
-    border-color: var(--nkp-amber-500);
-}
-.stepper-circle {
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
+.stepper-node, .stepper-circle {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+.stepper-arrow {
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
 /* Workflow Step Card (Sequential Map) */
