@@ -252,9 +252,21 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     align-items: center;
     transition: all 0.15s ease-in-out;
 }
+.nkp-sidebar-nav .nav-link i,
+.nkp-sidebar-nav .nav-link svg {
+    color: #94a3b8;
+    stroke: #94a3b8;
+    transition: color 0.15s ease, stroke 0.15s ease;
+    flex-shrink: 0;
+}
 .nkp-sidebar-nav .nav-link:hover {
     background-color: var(--nkp-navy-800);
     color: #ffffff;
+}
+.nkp-sidebar-nav .nav-link:hover i,
+.nkp-sidebar-nav .nav-link:hover svg {
+    color: #ffffff;
+    stroke: #ffffff;
 }
 .nkp-sidebar-nav .nav-link.active {
     background-color: var(--nkp-amber-500);
@@ -262,22 +274,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-weight: 700;
     box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
 }
-.nkp-sidebar-nav .nav-link.active .badge-step {
-    background-color: var(--nkp-navy-950) !important;
-    color: var(--nkp-amber-500) !important;
-}
-.nkp-sidebar-nav .nav-link .badge-step {
-    width: 22px;
-    height: 22px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    background-color: var(--nkp-navy-800);
-    color: #94a3b8;
-    margin-right: 0.65rem;
+.nkp-sidebar-nav .nav-link.active i,
+.nkp-sidebar-nav .nav-link.active svg {
+    color: var(--nkp-navy-950) !important;
+    stroke: var(--nkp-navy-950) !important;
 }
 
 .nkp-sidebar-heading {
@@ -286,7 +286,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     letter-spacing: 0.06em;
     font-weight: 700;
     color: #64748b;
-    padding: 0.85rem 0.85rem 0.35rem 0.85rem;
+    padding: 0.95rem 0.85rem 0.35rem 0.85rem;
 }
 
 /* Cards & Components */
@@ -323,6 +323,109 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .btn-navy:hover {
     background-color: var(--nkp-navy-800);
     color: #ffffff;
+}
+
+/* Unified Action Buttons (60-30-10 Rule) */
+.btn-action-primary {
+    background-color: var(--nkp-amber-500);
+    color: var(--nkp-navy-950);
+    font-weight: 700;
+    border: none;
+    box-shadow: 0 1px 2px rgba(217, 119, 6, 0.2);
+    transition: all 0.15s ease-in-out;
+}
+.btn-action-primary:hover, .btn-action-primary:focus {
+    background-color: var(--nkp-amber-600);
+    color: #ffffff;
+    box-shadow: 0 2px 5px rgba(217, 119, 6, 0.25);
+}
+
+.btn-action-secondary {
+    background-color: #ffffff;
+    color: #334155;
+    font-weight: 600;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+    transition: all 0.15s ease-in-out;
+}
+.btn-action-secondary:hover, .btn-action-secondary:focus {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+    color: var(--nkp-navy-950);
+}
+
+/* Unified Metric Cards (Monochromatic Sophistication) */
+.kpi-card {
+    background-color: #ffffff;
+    border: 1px solid var(--nkp-border);
+    border-radius: 0.75rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.kpi-card:hover {
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    transform: translateY(-1px);
+}
+.kpi-icon-well {
+    width: 34px;
+    height: 34px;
+    border-radius: 0.45rem;
+    background-color: #f1f5f9;
+    color: #475569;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Subtle Status Badges */
+.badge-subtle-amber {
+    background-color: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+.badge-subtle-emerald {
+    background-color: #d1fae5;
+    color: #065f46;
+    border: 1px solid #a7f3d0;
+}
+.badge-subtle-crimson {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+.badge-subtle-slate {
+    background-color: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+}
+
+/* Sidebar Badges (Harmonized, Non-Clashing) */
+.badge-sidebar-amber {
+    background-color: rgba(245, 158, 11, 0.18);
+    color: #fcd34d;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+.badge-sidebar-crimson {
+    background-color: rgba(239, 68, 68, 0.18);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+.badge-sidebar-neutral {
+    background-color: rgba(148, 163, 184, 0.15);
+    color: #cbd5e1;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+/* Workflow Step Card (Sequential Map) */
+.workflow-step-card {
+    background-color: #ffffff;
+    border: 1px solid var(--nkp-border);
+    border-radius: 0.75rem;
+    padding: 1.125rem;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.workflow-step-card.active-duty {
+    border-color: var(--nkp-amber-500);
+    box-shadow: 0 0 0 1px var(--nkp-amber-500), 0 4px 12px rgba(245, 158, 11, 0.08);
 }
 
 /* Table Enhancements */

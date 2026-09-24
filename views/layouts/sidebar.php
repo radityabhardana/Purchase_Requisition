@@ -18,13 +18,13 @@ $renderNavLinks = function() use ($currentPage, $role, $pendingPRCount, $critica
     <!-- Dashboard Utama -->
     <a href="index.php?page=dashboard" 
        class="nav-link <?= $currentPage === 'dashboard' ? 'active' : '' ?>">
-        <i data-lucide="layout-dashboard" class="me-2" style="width: 16px; height: 16px;"></i>
-        <span>Dashboard Utama</span>
+        <i data-lucide="layout-dashboard" class="me-2" style="width: 17px; height: 17px;"></i>
+        <span class="text-truncate">Dashboard Utama</span>
     </a>
 
-    <!-- DIVISI 1: ALUR KERJA PENGADAAN -->
+    <!-- GRUP 1: PENGADAAN (PURCHASING) -->
     <div class="nkp-sidebar-heading">
-        Alur Pengadaan
+        Pengadaan (Purchasing)
     </div>
 
     <?php 
@@ -33,62 +33,62 @@ $renderNavLinks = function() use ($currentPage, $role, $pendingPRCount, $critica
     $isSPVActive = ($currentPage === 'pr-detail' || $isPendingFilter);
     ?>
 
-    <!-- Tahap 1: Pengajuan PR -->
+    <!-- Pengajuan PR -->
     <a href="index.php?page=pr" 
        class="nav-link <?= $isPRActive ? 'active' : '' ?>">
-        <span class="badge-step">1</span>
+        <i data-lucide="clipboard-list" class="me-2" style="width: 17px; height: 17px;"></i>
         <span class="text-truncate">Pengajuan PR</span>
     </a>
 
-    <!-- Tahap 2: Persetujuan SPV (Approval) -->
+    <!-- Persetujuan SPV (Approval) -->
     <?php if (in_array($role, ['supervisor', 'admin'])): ?>
         <a href="index.php?page=pr&status=Pending" 
            class="nav-link justify-content-between <?= $isSPVActive ? 'active' : '' ?>">
             <div class="d-flex align-items-center text-truncate">
-                <span class="badge-step">2</span>
+                <i data-lucide="check-square" class="me-2" style="width: 17px; height: 17px;"></i>
                 <span class="text-truncate">Persetujuan SPV</span>
             </div>
             <?php if ($pendingPRCount > 0): ?>
-                <span class="badge rounded-pill <?= $isSPVActive ? 'bg-dark text-warning' : 'bg-danger text-white' ?>" style="font-size: 0.65rem;">
+                <span class="badge rounded-pill <?= $isSPVActive ? 'bg-dark text-warning' : 'badge-sidebar-amber' ?>" style="font-size: 0.65rem;">
                     <?= $pendingPRCount ?> PR
                 </span>
             <?php endif; ?>
         </a>
     <?php endif; ?>
 
-    <!-- Tahap 3: Purchase Order (PO) -->
+    <!-- Purchase Order (PO) -->
     <?php if (in_array($role, ['purchasing', 'admin'])): ?>
         <a href="index.php?page=po" 
            class="nav-link <?= in_array($currentPage, ['po', 'po-create', 'po-print']) ? 'active' : '' ?>">
-            <span class="badge-step">3</span>
+            <i data-lucide="shopping-cart" class="me-2" style="width: 17px; height: 17px;"></i>
             <span class="text-truncate">Purchase Order (PO)</span>
         </a>
     <?php endif; ?>
 
-    <!-- Tahap 4: Penerimaan Barang (GR) -->
+    <!-- GRUP 2: OPERASIONAL GUDANG & LOGISTIK -->
+    <div class="nkp-sidebar-heading">
+        Gudang & Logistik
+    </div>
+
+    <!-- Penerimaan Barang (GR) - Inbound -->
     <?php if (in_array($role, ['warehouse', 'admin'])): ?>
         <a href="index.php?page=gr" 
            class="nav-link <?= in_array($currentPage, ['gr', 'gr-create']) ? 'active' : '' ?>">
-            <span class="badge-step">4</span>
-            <span class="text-truncate">Penerimaan (GR)</span>
+            <i data-lucide="package-check" class="me-2" style="width: 17px; height: 17px;"></i>
+            <span class="text-truncate">Penerimaan Barang (GR)</span>
         </a>
     <?php endif; ?>
 
-    <!-- DIVISI 2: DATA MASTER & GUDANG INVENTARIS -->
-    <div class="nkp-sidebar-heading">
-        Data Master & Logistik
-    </div>
-
-    <!-- Master Stok Barang -->
-    <a href="index.php?page=items" 
-       class="nav-link justify-content-between <?= $currentPage === 'items' ? 'active' : '' ?>">
+    <!-- Surat Jalan (SJ) - Outbound -->
+    <a href="index.php?page=delivery-notes" 
+       class="nav-link justify-content-between <?= in_array($currentPage, ['delivery-notes', 'delivery-note-create', 'delivery-note-detail', 'delivery-note-print']) ? 'active' : '' ?>">
         <div class="d-flex align-items-center text-truncate">
-            <i data-lucide="boxes" class="me-2" style="width: 16px; height: 16px;"></i>
-            <span class="text-truncate">Katalog & Stok</span>
+            <i data-lucide="truck" class="me-2" style="width: 17px; height: 17px;"></i>
+            <span class="text-truncate">Surat Jalan (SJ)</span>
         </div>
-        <?php if ($criticalStockCount > 0): ?>
-            <span class="badge rounded-pill <?= $currentPage === 'items' ? 'bg-dark text-warning' : 'bg-danger text-white' ?>" style="font-size: 0.65rem;">
-                <?= $criticalStockCount ?> Kritis
+        <?php if ($activeDNCount > 0): ?>
+            <span class="badge rounded-pill <?= in_array($currentPage, ['delivery-notes', 'delivery-note-create']) ? 'bg-dark text-warning' : 'badge-sidebar-neutral' ?>" style="font-size: 0.65rem;">
+                <?= $activeDNCount ?> Kirim
             </span>
         <?php endif; ?>
     </a>
@@ -96,20 +96,25 @@ $renderNavLinks = function() use ($currentPage, $role, $pendingPRCount, $critica
     <!-- Kartu Mutasi Stok -->
     <a href="index.php?page=mutations" 
        class="nav-link <?= $currentPage === 'mutations' ? 'active' : '' ?>">
-        <i data-lucide="arrow-left-right" class="me-2" style="width: 16px; height: 16px;"></i>
+        <i data-lucide="arrow-left-right" class="me-2" style="width: 17px; height: 17px;"></i>
         <span class="text-truncate">Kartu Mutasi Stok</span>
     </a>
 
-    <!-- Surat Jalan (Delivery Note) -->
-    <a href="index.php?page=delivery-notes" 
-       class="nav-link justify-content-between <?= in_array($currentPage, ['delivery-notes', 'delivery-note-create', 'delivery-note-detail', 'delivery-note-print']) ? 'active' : '' ?>">
+    <!-- GRUP 3: KATALOG & MASTER DATA -->
+    <div class="nkp-sidebar-heading">
+        Katalog & Master Data
+    </div>
+
+    <!-- Master Stok Barang -->
+    <a href="index.php?page=items" 
+       class="nav-link justify-content-between <?= $currentPage === 'items' ? 'active' : '' ?>">
         <div class="d-flex align-items-center text-truncate">
-            <i data-lucide="truck" class="me-2" style="width: 16px; height: 16px;"></i>
-            <span class="text-truncate">Surat Jalan (SJ)</span>
+            <i data-lucide="boxes" class="me-2" style="width: 17px; height: 17px;"></i>
+            <span class="text-truncate">Katalog & Stok</span>
         </div>
-        <?php if ($activeDNCount > 0): ?>
-            <span class="badge rounded-pill <?= in_array($currentPage, ['delivery-notes', 'delivery-note-create']) ? 'bg-dark text-warning' : 'bg-primary text-white' ?>" style="font-size: 0.65rem;">
-                <?= $activeDNCount ?> Kirim
+        <?php if ($criticalStockCount > 0): ?>
+            <span class="badge rounded-pill <?= $currentPage === 'items' ? 'bg-dark text-warning' : 'badge-sidebar-crimson' ?>" style="font-size: 0.65rem;">
+                <?= $criticalStockCount ?> Kritis
             </span>
         <?php endif; ?>
     </a>
@@ -118,20 +123,20 @@ $renderNavLinks = function() use ($currentPage, $role, $pendingPRCount, $critica
     <?php if (in_array($role, ['purchasing', 'admin'])): ?>
         <a href="index.php?page=suppliers" 
            class="nav-link <?= $currentPage === 'suppliers' ? 'active' : '' ?>">
-            <i data-lucide="building-2" class="me-2" style="width: 16px; height: 16px;"></i>
+            <i data-lucide="building-2" class="me-2" style="width: 17px; height: 17px;"></i>
             <span class="text-truncate">Data Supplier</span>
         </a>
     <?php endif; ?>
 
-    <!-- DIVISI 3: ADMINISTRASI SISTEM -->
+    <!-- GRUP 4: ADMINISTRASI SISTEM -->
     <?php if ($role === 'admin'): ?>
         <div class="nkp-sidebar-heading">
             Administrasi
         </div>
         <a href="index.php?page=users" 
            class="nav-link <?= in_array($currentPage, ['users']) ? 'active' : '' ?>">
-            <i data-lucide="users" class="me-2" style="width: 16px; height: 16px;"></i>
-            <span class="text-truncate">Manajemen Akun User</span>
+            <i data-lucide="users" class="me-2" style="width: 17px; height: 17px;"></i>
+            <span class="text-truncate">Manajemen User</span>
         </a>
     <?php endif; ?>
 <?php

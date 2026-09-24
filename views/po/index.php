@@ -64,7 +64,7 @@ $user = AuthHelper::user();
                         </td>
                         <td class="text-end">
                             <a href="index.php?page=po-create&pr_id=<?= $apr['id'] ?>"
-                               class="btn btn-sm btn-warning fw-bold px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1" style="background-color: var(--nkp-amber-500); border: none; color: #020617;">
+                               class="btn btn-action-primary btn-sm px-3 py-1 shadow-sm d-inline-flex align-items-center gap-1">
                                 <i data-lucide="file-plus" style="width: 14px; height: 14px;"></i>
                                 <span>Terbitkan PO</span>
                             </a>
