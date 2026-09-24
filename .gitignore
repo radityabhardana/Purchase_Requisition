@@ -1,14 +1,82 @@
-# Development & OS
-.DS_Store
-Thumbs.db
-*.log
+# ==============================================================================
+# .gitignore - Sistem Informasi Purchasing & Inventaris (SIP-NKP)
+# Environment: PHP 8.3 / Apache (Laragon) / MySQL / Windows Localhost
+# ==============================================================================
 
-# IDE & Editor
+# 1. Environment & Local Configurations
+.env
+.env.local
+.env.*.local
+*.local.php
+config.local.php
+
+# 2. Dependency Directories (Composer & Node)
+/vendor/
+composer.phar
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 3. Log & Temporary Runtime Files
+*.log
+error_log
+access_log
+*.tmp
+*.temp
+*.swp
+*.bak
+*.cache
+sessions/
+session/
+
+# 4. Database Dumps & Ad-hoc Backups
+# Catatan: database/schema.sql dan database/seeders.sql tetap di-track oleh Git
+*.sql.gz
+*.sql.tar.gz
+*.sql.bak
+dump.sql
+backup.sql
+export.sql
+*.dump
+
+# 5. IDE & Code Editors
 .vscode/
 .idea/
 *.sublime-project
 *.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+nbproject/
+.buildpath
+.project
+.settings/
 
-# Temporary Scratch files
+# 6. Operating System Artifacts
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+
+# 7. Agent & Local Scratch Files
 scratch/
 .system_generated/
