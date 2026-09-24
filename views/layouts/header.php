@@ -43,48 +43,67 @@ $flash = AuthHelper::getFlash();
                     <button class="btn btn-sm btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar" aria-controls="mobileSidebar" title="Buka Navigasi">
                         <i data-lucide="menu" style="width: 18px; height: 18px;"></i>
                     </button>
-                    
-                    <span class="badge bg-dark text-warning px-2.5 py-1.5 d-inline-flex align-items-center font-monospace fw-bold">
-                        <i data-lucide="factory" class="me-1.5" style="width: 14px; height: 14px;"></i>
-                        PLANT CILEUNGSI
-                    </span>
-
-                    <span class="text-muted d-none d-md-inline">|</span>
 
                     <div class="d-none d-md-flex align-items-center gap-2 small">
                         <span class="text-secondary d-inline-flex align-items-center">
                             <i data-lucide="calendar" class="me-1.5 text-muted" style="width: 14px; height: 14px;"></i>
-                            <span id="realtimeDate"><?= FormatHelper::dateIndo(date('Y-m-d')) ?></span>
+                            <span id="realtimeDate" class="fw-medium"><?= FormatHelper::dateIndo(date('Y-m-d')) ?></span>
                         </span>
 
                         <span class="text-muted">•</span>
 
                         <!-- Digital Real-time Clock Badge -->
-                        <div class="badge bg-dark text-light px-2.5 py-1.5 border border-secondary shadow-sm d-inline-flex align-items-center font-monospace fw-bold" title="Waktu Server Lokal (Real-time)">
+                        <div class="badge bg-dark text-light px-2.5 py-1.5 border border-secondary shadow-sm d-inline-flex align-items-center" title="Waktu Server Lokal (Real-time)">
                             <span class="spinner-grow spinner-grow-sm text-success me-2" style="width: 8px; height: 8px;" role="status"></span>
-                            <span id="realtimeClock" class="text-warning">--:--:--</span>
-                            <span class="ms-1 text-muted" style="font-size: 0.65rem;">WIB</span>
+                            <span id="realtimeClock" class="text-warning font-monospace fw-bold" style="font-size: 0.85rem; letter-spacing: 0.05em;">--:--:--</span>
+                            <span class="ms-1.5 text-secondary fw-semibold" style="font-size: 0.68rem;">WIB</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Sisi Kanan: Profil User & Logout -->
-                <div class="d-flex align-items-center gap-3">
-                    <div class="d-flex align-items-center gap-2">
-                        <div class="rounded-circle bg-dark text-warning d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 34px; height: 34px; font-size: 0.8rem;">
-                            <?= strtoupper(substr($currentUser['name'] ?? 'U', 0, 2)) ?>
-                        </div>
-                        <div class="d-none d-sm-block text-start lh-sm">
-                            <div class="fw-bold text-dark small"><?= htmlspecialchars($currentUser['name'] ?? '') ?></div>
+                <!-- Sisi Kanan: Profil User (Klik untuk Dropdown Logout) -->
+                <div class="dropdown">
+                    <button class="btn btn-link text-decoration-none p-1.5 px-2.5 rounded-3 d-flex align-items-center gap-2 border-0 text-start nkp-profile-btn" 
+                            type="button" 
+                            id="userProfileDropdown" 
+                            data-bs-toggle="dropdown" 
+                            aria-expanded="false"
+                            title="Klik untuk menu profil & logout">
+                        <div class="text-start lh-sm">
+                            <div class="fw-bold text-dark small d-flex align-items-center gap-1.5">
+                                <span class="text-truncate d-inline-block" style="max-width: 220px;"><?= htmlspecialchars($currentUser['name'] ?? '') ?></span>
+                                <i data-lucide="chevron-down" class="text-secondary flex-shrink-0" style="width: 14px; height: 14px;"></i>
+                            </div>
                             <div class="text-muted text-capitalize" style="font-size: 0.7rem;">
                                 <?= ucfirst($currentUser['role'] ?? '') ?> • <?= htmlspecialchars($currentUser['department'] ?? '') ?>
                             </div>
                         </div>
-                    </div>
+                    </button>
 
-                    <a href="index.php?page=logout" class="btn btn-sm btn-outline-danger p-1.5 rounded-2" title="Keluar dari Sistem">
-                        <i data-lucide="log-out" style="width: 16px; height: 16px;"></i>
-                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-1 py-2" aria-labelledby="userProfileDropdown" style="min-width: 230px;">
+                        <li class="px-3 py-2 border-bottom mb-1 bg-light-subtle">
+                            <div class="d-flex align-items-center gap-2.5">
+                                <div class="rounded-circle bg-dark text-warning d-flex align-items-center justify-content-center fw-bold shadow-sm flex-shrink-0" style="width: 36px; height: 36px; font-size: 0.85rem;">
+                                    <?= strtoupper(substr($currentUser['name'] ?? 'U', 0, 2)) ?>
+                                </div>
+                                <div class="lh-sm overflow-hidden">
+                                    <div class="fw-bold text-dark text-truncate small"><?= htmlspecialchars($currentUser['name'] ?? '') ?></div>
+                                    <div class="text-muted text-capitalize" style="font-size: 0.72rem;">
+                                        <span class="badge bg-secondary-subtle text-secondary border px-1.5 py-0.5" style="font-size: 0.65rem;">
+                                            <?= ucfirst($currentUser['role'] ?? '') ?>
+                                        </span>
+                                        <span class="ms-1"><?= htmlspecialchars($currentUser['department'] ?? '') ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center gap-2 text-danger py-2 fw-semibold" href="index.php?page=logout">
+                                <i data-lucide="log-out" style="width: 16px; height: 16px;"></i>
+                                <span>Keluar (Log Out)</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 

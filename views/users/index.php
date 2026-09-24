@@ -124,9 +124,9 @@
                                 </td>
 
                                 <!-- Password (Bisa diintip / dilihat langsung) -->
-                                <td class="py-3 px-3 font-monospace">
+                                <td class="py-3 px-3">
                                     <div class="d-inline-flex align-items-center gap-2 bg-light px-2.5 py-1 rounded border">
-                                        <span id="passText_<?= $u['id'] ?>" class="fw-bold text-secondary">
+                                        <span id="passText_<?= $u['id'] ?>" class="fw-bold text-secondary font-monospace" style="letter-spacing: 0.08em; font-size: 0.85rem;">
                                             ••••••••
                                         </span>
                                         <button type="button" 
@@ -224,11 +224,11 @@
                     <div class="row g-2 mb-3">
                         <div class="col-6">
                             <label class="form-label fw-semibold text-secondary">Username (ID) <span class="text-danger">*</span></label>
-                            <input type="text" name="username" required placeholder="Contoh: doni" class="form-control font-monospace">
+                            <input type="text" name="username" required placeholder="Contoh: doni" class="form-control">
                         </div>
                         <div class="col-6">
                             <label class="form-label fw-semibold text-secondary">Password <span class="text-danger">*</span></label>
-                            <input type="text" name="password" required placeholder="Contoh: password123" class="form-control font-monospace">
+                            <input type="text" name="password" required placeholder="Contoh: password123" class="form-control">
                         </div>
                     </div>
 
@@ -285,11 +285,11 @@
                     <div class="row g-2 mb-3">
                         <div class="col-6">
                             <label class="form-label fw-semibold text-secondary">Username / NIK <span class="text-danger">*</span></label>
-                            <input type="text" id="edit_username" name="username" required class="form-control font-monospace">
+                            <input type="text" id="edit_username" name="username" required class="form-control">
                         </div>
                         <div class="col-6">
                             <label class="form-label fw-semibold text-secondary">Password Baru (Teks)</label>
-                            <input type="text" id="edit_password" name="password" placeholder="Kosongkan jika tak diubah" class="form-control font-monospace">
+                            <input type="text" id="edit_password" name="password" placeholder="Kosongkan jika tak diubah" class="form-control">
                         </div>
                     </div>
 

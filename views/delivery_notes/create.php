@@ -13,7 +13,7 @@ $user = AuthHelper::user();
         <span>Kembali ke Daftar Surat Jalan</span>
     </a>
     <div class="d-flex align-items-center gap-2 mb-1">
-        <span class="badge bg-warning text-dark font-monospace fw-bold px-2 py-1">SURAT JALAN PENGELUARAN BARANG</span>
+        <span class="badge bg-warning text-dark fw-bold tracking-wide px-2.5 py-1">SURAT JALAN PENGELUARAN BARANG</span>
     </div>
     <h1 class="h3 fw-bold text-dark mb-1">Form Penerbitan Surat Jalan (Delivery Note)</h1>
     <p class="text-secondary small mb-0">Pengurangan stok fisik gudang (Stock OUT) dan pembuatan dokumen pengiriman resmi PT Nandya Karya Perkasa.</p>

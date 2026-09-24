@@ -70,7 +70,7 @@ $flash = AuthHelper::getFlash();
                                     <i data-lucide="user" style="width: 16px; height: 16px;"></i>
                                 </span>
                                 <input type="text" id="username" name="username" required
-                                       class="form-control form-control-sm border-start-0 font-monospace py-2"
+                                       class="form-control form-control-sm border-start-0 py-2"
                                        placeholder="Contoh: budi, siti, hendra...">
                             </div>
                         </div>
@@ -82,7 +82,7 @@ $flash = AuthHelper::getFlash();
                                     <i data-lucide="lock" style="width: 16px; height: 16px;"></i>
                                 </span>
                                 <input type="password" id="password" name="password" required
-                                       class="form-control form-control-sm border-start-0 border-end-0 font-monospace py-2"
+                                       class="form-control form-control-sm border-start-0 border-end-0 py-2"
                                        placeholder="Masukkan password...">
                                 <button type="button" onclick="togglePasswordVisibility()" 
                                         class="input-group-text bg-light text-secondary border-start-0" 

@@ -151,9 +151,8 @@ $renderNavLinks = function() use ($currentPage, $role, $pendingPRCount, $critica
                          style="max-width: 100%; max-height: 100%; object-fit: contain;">
                 </div>
                 <div>
-                    <div class="fw-black text-white text-sm tracking-wide d-flex align-items-center">
+                    <div class="fw-bold text-white text-sm tracking-wide">
                         SIP-NKP
-                        <span class="badge bg-warning text-dark ms-1.5 px-1.5 py-0.5" style="font-size: 0.6rem;">PRO</span>
                     </div>
                     <div class="text-secondary fw-semibold text-uppercase" style="font-size: 0.65rem;">PT Nandya Karya Perkasa</div>
                 </div>
@@ -191,9 +190,8 @@ $renderNavLinks = function() use ($currentPage, $role, $pendingPRCount, $critica
                      style="max-width: 100%; max-height: 100%; object-fit: contain;">
             </div>
             <div>
-                <div class="fw-black text-white text-sm d-flex align-items-center">
+                <div class="fw-bold text-white text-sm tracking-wide">
                     SIP-NKP
-                    <span class="badge bg-warning text-dark ms-1 px-1" style="font-size: 0.6rem;">PRO</span>
                 </div>
                 <div class="text-secondary small text-uppercase" style="font-size: 0.6rem;">PT Nandya Karya Perkasa</div>
             </div>

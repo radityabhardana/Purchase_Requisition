@@ -66,7 +66,7 @@ $canManage = in_array($user['role'], ['admin', 'purchasing']);
                         <?= htmlspecialchars($s['address']) ?>
                     </td>
                     <td class="text-center">
-                        <span class="badge bg-light text-secondary border font-monospace">
+                        <span class="badge bg-light text-secondary border fw-semibold">
                             <?= htmlspecialchars($s['payment_term']) ?>
                         </span>
                     </td>

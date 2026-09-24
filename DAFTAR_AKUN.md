@@ -19,7 +19,7 @@ Gunakan akun di bawah ini untuk menguji hak akses masing-masing departemen atau 
 
 | No | Username | Password | Peran (Role) | Nama Lengkap | Departemen / Divisi | Tahap Alur Utama |
 | :-: | :--- | :---: | :---: | :--- | :--- | :---: |
-| 1 | **`budi`** | `password123` | `admin` | Budi Santoso | Information Technology (IT) | **Akses Penuh** |
+| 1 | **`budi`** | `password123` | `admin` | Budi Santoso | Information Technology (IT) | **Akses Penuh** 
 | 2 | **`hendra`** | `password123` | `supervisor` | Ir. Hendra Gunawan | Production & Maintenance | **Tahap 2 (Approval)** |
 | 3 | **`siti`** | `password123` | `purchasing` | Siti Rahmawati | Procurement & Purchasing | **Tahap 3 (Terbit PO)** |
 | 4 | **`doni`** | `password123` | `purchasing` | Doni Hermawan | Procurement & Purchasing | **Tahap 3 (Vendor/PO)** |

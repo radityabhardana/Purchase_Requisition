@@ -31,6 +31,8 @@ graph LR
         UC9(Auto-Sync Stok & Kartu Mutasi)
         UC10(Lihat Dashboard & Alert Stok Kritis)
         UC11(Kelola Akun Pengguna)
+        UC12(Terbitkan Surat Jalan / Delivery Note)
+        UC13(Cetak Lembar Surat Jalan A4)
     end
 
     REQ --> UC1
@@ -53,10 +55,22 @@ graph LR
     WHS --> UC8
     WHS --> UC9
     WHS --> UC10
+    WHS --> UC12
+    WHS --> UC13
 
     ADM --> UC1
-    ADM --> UC11
+    ADM --> UC2
+    ADM --> UC3
+    ADM --> UC4
+    ADM --> UC5
+    ADM --> UC6
+    ADM --> UC7
+    ADM --> UC8
+    ADM --> UC9
     ADM --> UC10
+    ADM --> UC11
+    ADM --> UC12
+    ADM --> UC13
 ```
 
 ---
@@ -156,6 +170,54 @@ sequenceDiagram
         CTRL->>DB: $pdo->rollBack()
         CTRL-->>UI: Tampilkan pesan gagal & batalkan seluruh perubahan
         UI-->>WHS: Tampilkan peringatan "Gagal memproses penerimaan"
+    end
+```
+
+---
+
+## 3.2 Sequence Diagram (Penerbitan Surat Jalan & Pengeluaran Stok Gudang - Stock OUT)
+
+Diagram berikut memodelkan transaksi ACID penerbitan Surat Jalan lengkap dengan mekanisme row locking (*FOR UPDATE*) dan pencatatan mutasi keluar:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor WHS as Petugas Gudang / Admin
+    participant UI as Form Surat Jalan (Browser)
+    participant CTRL as DeliveryNoteController.php
+    participant DB as MySQL Database (PDO)
+    participant ITEM as Items Model
+    participant MUT as StockMutation Model
+
+    WHS->>UI: Buka form Surat Jalan Baru
+    UI->>WHS: Tampilkan form penerima & daftar suku cadang
+    WHS->>UI: Input tujuan pengiriman, sopir, plat nopol & kuantitas part
+    WHS->>UI: Klik "Konfirmasi & Terbitkan Surat Jalan"
+    UI->>CTRL: POST index.php?page=delivery-note-store
+    
+    Note over CTRL,DB: Memulai Transaksi Database (ACID)
+    CTRL->>DB: $pdo->beginTransaction()
+    CTRL->>DB: INSERT INTO delivery_notes (...)
+    DB-->>CTRL: Return delivery_note_id baru
+    
+    loop Setiap Item yang Dikirim
+        CTRL->>DB: SELECT stock FROM items WHERE id = item_id FOR UPDATE
+        alt Jika Stok Cukup (stock >= qty_shipped)
+            CTRL->>DB: INSERT INTO delivery_note_items (...)
+            CTRL->>ITEM: Potong stok fisik (-qty_shipped)
+            ITEM->>DB: UPDATE items SET stock = stock - qty WHERE id = item_id
+            CTRL->>MUT: Catat kartu mutasi OUT (balance = stock_sisa)
+            MUT->>DB: INSERT INTO stock_mutations (item_id, 'OUT', qty, balance)
+        else Jika Stok Tidak Cukup
+            CTRL->>DB: $pdo->rollBack()
+            CTRL-->>UI: Flash Error: Stok tidak mencukupi
+        end
+    end
+
+    alt Jika Seluruh Kueri Berhasil
+        CTRL->>DB: $pdo->commit()
+        CTRL-->>UI: Redirect ke Cetak Surat Jalan A4
+        UI-->>WHS: Tampilkan lembar cetak standar ISO lengkap barcode & 4 TTD
     end
 ```
 
