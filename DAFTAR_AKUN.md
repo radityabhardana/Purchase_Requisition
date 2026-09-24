@@ -110,7 +110,7 @@ Gunakan alur demonstrasi di bawah ini saat mempresentasikan sistem kepada dewan 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │  LANGKAH 1 ➔ TEKNISI (user: rizky | pass: password123)                                │
-│  • Masuk ke sistem, klik menu "1. Pengajuan PR".                                       │
+│  • Masuk ke sistem, klik menu "Permintaan Pembelian (PR)" ➔ "+ Buat Pengajuan PR".     │
 │  • Isi pengajuan kebutuhan part darurat (misal: Hydraulic Seal Kit 5 Set).             │
 │  • Klik "Kirim Pengajuan PR" ➔ Status menjadi: PENDING.                                │
 └────────────────────────────────────┬───────────────────────────────────────────────────┘
@@ -118,8 +118,8 @@ Gunakan alur demonstrasi di bawah ini saat mempresentasikan sistem kepada dewan 
                                      ▼
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │  LANGKAH 2 ➔ SUPERVISOR (user: hendra | pass: password123)                             │
-│  • Masuk ke menu "2. Persetujuan SPV".                                                 │
-│  • Buka rincian PR ➔ Klik tombol hijau "Setujui (Approve)".                            │
+│  • Buka menu "Permintaan Pembelian (PR)" ➔ Tab "Menunggu Approval (Pending)".          │
+│  • Buka rincian PR (atau klik tombol cepat "Setujui" di baris tabel).                  │
 │  • Dokumen terverifikasi ➔ Status berubah menjadi: APPROVED.                           │
 └────────────────────────────────────┬───────────────────────────────────────────────────┘
                                      │

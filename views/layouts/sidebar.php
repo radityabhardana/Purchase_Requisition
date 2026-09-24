@@ -27,34 +27,19 @@ $renderNavLinks = function() use ($currentPage, $role, $pendingPRCount, $critica
         Pengadaan (Purchasing)
     </div>
 
-    <?php 
-    $isPendingFilter = ($currentPage === 'pr' && ($_GET['status'] ?? '') === 'Pending');
-    $isPRActive = (in_array($currentPage, ['pr', 'pr-create']) && !$isPendingFilter);
-    $isSPVActive = ($currentPage === 'pr-detail' || $isPendingFilter);
-    ?>
-
-    <!-- Pengajuan PR -->
+    <!-- Permintaan Pembelian (PR) -->
     <a href="index.php?page=pr" 
-       class="nav-link <?= $isPRActive ? 'active' : '' ?>">
-        <i data-lucide="clipboard-list" class="me-2" style="width: 17px; height: 17px;"></i>
-        <span class="text-truncate">Pengajuan PR</span>
+       class="nav-link justify-content-between <?= in_array($currentPage, ['pr', 'pr-create', 'pr-detail']) ? 'active' : '' ?>">
+        <div class="d-flex align-items-center text-truncate">
+            <i data-lucide="clipboard-list" class="me-2" style="width: 17px; height: 17px;"></i>
+            <span class="text-truncate">Permintaan Pembelian (PR)</span>
+        </div>
+        <?php if ($pendingPRCount > 0 && in_array($role, ['supervisor', 'admin'])): ?>
+            <span class="badge rounded-pill <?= in_array($currentPage, ['pr', 'pr-create', 'pr-detail']) ? 'bg-dark text-warning' : 'badge-sidebar-amber' ?>" style="font-size: 0.65rem;" title="<?= $pendingPRCount ?> PR Menunggu Persetujuan">
+                <?= $pendingPRCount ?> Antre
+            </span>
+        <?php endif; ?>
     </a>
-
-    <!-- Persetujuan SPV (Approval) -->
-    <?php if (in_array($role, ['supervisor', 'admin'])): ?>
-        <a href="index.php?page=pr&status=Pending" 
-           class="nav-link justify-content-between <?= $isSPVActive ? 'active' : '' ?>">
-            <div class="d-flex align-items-center text-truncate">
-                <i data-lucide="check-square" class="me-2" style="width: 17px; height: 17px;"></i>
-                <span class="text-truncate">Persetujuan SPV</span>
-            </div>
-            <?php if ($pendingPRCount > 0): ?>
-                <span class="badge rounded-pill <?= $isSPVActive ? 'bg-dark text-warning' : 'badge-sidebar-amber' ?>" style="font-size: 0.65rem;">
-                    <?= $pendingPRCount ?> PR
-                </span>
-            <?php endif; ?>
-        </a>
-    <?php endif; ?>
 
     <!-- Purchase Order (PO) -->
     <?php if (in_array($role, ['purchasing', 'admin'])): ?>

@@ -41,19 +41,14 @@ $canApprove = in_array($user['role'], ['supervisor', 'admin']);
         <?php if ($isApprovalPage): ?>
             <span class="badge bg-warning text-dark px-3 py-2 fw-bold border shadow-sm d-inline-flex align-items-center gap-1.5">
                 <i data-lucide="inbox" style="width: 15px; height: 15px;"></i>
-                <span><?= count($prs) ?> Dokumen Menunggu Review</span>
+                <span><?= count($prs) ?> Antre Approval</span>
             </span>
-            <a href="index.php?page=pr" class="btn btn-outline-secondary btn-sm fw-semibold px-3 py-2 d-inline-flex align-items-center gap-1 shadow-sm">
-                <i data-lucide="list" style="width: 15px; height: 15px;"></i>
-                <span>Semua Riwayat PR</span>
-            </a>
-        <?php else: ?>
-            <a href="index.php?page=pr-create" 
-               class="btn btn-warning btn-sm fw-bold px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm text-dark" style="background-color: var(--nkp-amber-500); border: none;">
-                <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i>
-                <span>+ Buat Pengajuan PR Baru</span>
-            </a>
         <?php endif; ?>
+        <a href="index.php?page=pr-create" 
+           class="btn btn-warning btn-sm fw-bold px-3 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm text-dark" style="background-color: var(--nkp-amber-500); border: none;">
+            <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i>
+            <span>+ Buat Pengajuan PR</span>
+        </a>
     </div>
 </div>
 
